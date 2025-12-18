@@ -7,13 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         :root { 
-            /* Original Game Color Palette */
-            --bg-color: #f4f7f6; /* Clean light background */
+            --bg-color: #f4f7f6;
             --text-dark: #2d3436;
-            --lime-green: #96e018; /* The specific bright green from the logo */
-            --tangerine-orange: #ff9f1a; /* Bright orange */
-            --card-purple: #a55eea; /* For 'This or That' */
-            --card-teal: #00d2d3; /* For 'Best of Three' */
+            --lime-green: #96e018; 
+            --tangerine-orange: #ff9f1a; 
+            --card-purple: #a55eea; 
+            --card-teal: #00d2d3; 
             --white: #ffffff;
         }
 
@@ -21,12 +20,11 @@
         
         body { 
             background-color: var(--bg-color); 
-            /* Subtle playful pattern for the main background */
             background-image: radial-gradient(var(--lime-green) 2%, transparent 2%), radial-gradient(var(--tangerine-orange) 2%, transparent 2%);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
             color: var(--text-dark); 
-            font-family: 'Permanent Marker', cursive; /* Handwritten feel for general text */
+            font-family: 'Permanent Marker', cursive;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; padding: 15px; 
         }
         
@@ -35,12 +33,11 @@
         h1 { font-size: 3rem; margin-top: 10px; color: var(--lime-green); -webkit-text-stroke: 1.5px var(--text-dark); text-shadow: 3px 3px 0 #000; }
         h2 { font-size: 2rem; color: var(--text-dark); }
         
-        /* UTILS */
-        .green-text { color: var(--lime-green); }
-        .orange-text { color: var(--tangerine-orange); }
+        .green-text { color: var(--lime-green); -webkit-text-stroke: 1px var(--text-dark); }
+        .orange-text { color: var(--tangerine-orange); -webkit-text-stroke: 1px var(--text-dark); }
 
         /* CONTAINERS */
-        .screen { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
+        .screen { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; z-index: 2; position: relative; }
         .screen.active { display: flex; }
         .box { background: var(--white); padding: 25px; border-radius: 20px; width: 100%; margin: 15px 0; border: 4px solid var(--text-dark); box-shadow: 5px 5px 0 rgba(0,0,0,0.1); }
 
@@ -67,57 +64,46 @@
         .is-green { background: var(--lime-green); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
         .is-orange { background: var(--tangerine-orange); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
 
-        /* --- GAME CARD STYLES --- */
-        .question-card-container {
-            width: 100%; margin: 20px 0; perspective: 1000px;
-        }
+        /* HEADER INFO */
+        .game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .card-counter { font-family: 'Bangers'; font-size: 1.2rem; background: var(--text-dark); color: white; padding: 5px 15px; border-radius: 15px; }
+
+        /* CARDS */
+        .question-card-container { width: 100%; margin: 10px 0; perspective: 1000px; }
         .question-card {
             width: 100%; border-radius: 25px; padding: 25px 20px; border: 5px solid var(--text-dark);
-            box-shadow: 8px 8px 0 rgba(0,0,0,0.15); position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center;
         }
-        
-        /* Card Theme: Purple (This or That) */
         .card-purple { 
             background-color: var(--card-purple); color: var(--white); 
-            /* Zig-zag pattern */
-            background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(315deg, rgba(255,255,255,0.1) 25%, transparent 25%);
-            background-position:  10px 0, 10px 0, 0 0, 0 0;
+            background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.1) 25%, transparent 25%);
             background-size: 20px 20px;
-            background-repeat: repeat;
         }
-        /* Card Theme: Teal (Best of Three) */
         .card-teal { 
             background-color: var(--card-teal); color: var(--white);
-            /* Shapes pattern */
-            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10%), radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10%);
-            background-position: 0 0, 15px 15px;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10%);
             background-size: 30px 30px;
         }
-
         .card-title {
             font-family: 'Bangers', cursive; font-size: 1.8rem; margin-bottom: 15px;
             background: var(--white); color: var(--text-dark); padding: 5px 20px;
-            border-radius: 20px; border: 3px solid var(--text-dark);
-            transform: rotate(-2deg); /* Playful tilt */
+            border-radius: 20px; border: 3px solid var(--text-dark); transform: rotate(-2deg);
         }
         .question-text { font-size: 2rem; margin: 20px 0; line-height: 1.1; text-align: center; text-shadow: 2px 2px 0 rgba(0,0,0,0.2); }
         
-        /* ANSWER OPTIONS (Whiteboard look) */
         .options-container { width: 100%; display: flex; flex-direction: column; gap: 10px; }
         .option-btn { 
             background: var(--white); color: var(--text-dark); padding: 15px; border-radius: 15px; 
             font-size: 1.5rem; cursor: pointer; border: 4px solid var(--text-dark); width: 100%;
             text-align: center; transition: all 0.1s; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
         }
-        .option-btn:hover { transform: scale(1.02); }
         .option-btn.selected { 
             background: var(--lime-green); color: var(--white); border-color: var(--text-dark);
-            box-shadow: inset 0 0 0 3px var(--white); /* Inner white border for pop */
+            box-shadow: inset 0 0 0 3px var(--white); transform: scale(0.98);
         }
 
         /* TIMER */
-        .timer-bar { height: 12px; background: var(--white); border: 3px solid var(--text-dark); width: 100%; border-radius: 10px; overflow: hidden; margin: 15px 0; }
+        .timer-bar { height: 12px; background: var(--white); border: 3px solid var(--text-dark); width: 100%; border-radius: 10px; overflow: hidden; }
         .timer-fill { height: 100%; background: var(--lime-green); width: 100%; transition: width 1s linear; }
 
         /* RESULTS */
@@ -125,49 +111,62 @@
         .score-pill { font-family: 'Bangers', cursive; font-size: 1.2rem; padding: 5px 15px; border-radius: 20px; background: var(--text-dark); color: var(--white); min-width: 40px; text-align: center; }
         .winner-highlight { border-color: var(--lime-green); background: #f0ffe0; }
 
+        /* CONFETTI CANVAS */
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+
     </style>
 </head>
 <body>
 
+    <canvas id="confetti-canvas"></canvas>
+
     <div id="s-home" class="screen active">
         <h1>GREEN TEAM WINS</h1>
         <div class="box">
-            <button class="btn btn-green" onclick="createGame()">HOST A GAME</button>
-            <div style="display: flex; align-items: center; margin: 15px 0;">
+            <h2 class="title-font" style="font-size: 1.5rem;">HOST A GAME</h2>
+            <input type="text" id="host-name" placeholder="YOUR NAME" maxlength="10">
+            <button class="btn btn-green" onclick="createGame()">CREATE & JOIN</button>
+            
+            <div style="display: flex; align-items: center; margin: 20px 0;">
                 <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
                 <span style="margin: 0 10px; font-family: 'Bangers'; font-size: 1.2rem;">OR JOIN</span>
                 <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
             </div>
+            
+            <h2 class="title-font" style="font-size: 1.5rem;">JOIN A GAME</h2>
             <input type="text" id="join-code" placeholder="ROOM CODE" maxlength="4" style="text-transform:uppercase;">
-            <input type="text" id="join-name" placeholder="YOUR NAME" maxlength="10">
+            <input type="text" id="join-name-player" placeholder="YOUR NAME" maxlength="10">
             <button class="btn btn-orange" onclick="joinGame()">JOIN GAME</button>
         </div>
-        <p style="font-size: 1rem;">Match the majority to join the Green Team!</p>
     </div>
 
     <div id="s-host-lobby" class="screen">
         <div class="box" style="text-align: center;">
             <h2>ROOM CODE:</h2>
-            <div id="lobby-code" style="font-family: 'Bangers'; font-size: 4rem; color: var(--lime-green); -webkit-text-stroke: 2px var(--text-dark); margin: 10px 0;"></div>
-            <p>Waiting for players to join...</p>
+            <div id="lobby-code" style="font-family: 'Bangers'; font-size: 4rem; color: var(--lime-green); -webkit-text-stroke: 2px var(--text-dark); margin: 5px 0;"></div>
         </div>
-        <div id="host-player-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; margin: 20px 0; min-height: 50px;"></div>
+        <div id="host-rules-container" style="width: 100%;"></div> <div class="box">
+            <h2 class="title-font" style="text-align: center; font-size: 1.5rem;">PLAYERS JOINED:</h2>
+            <div id="host-player-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; margin-top: 15px;"></div>
+        </div>
         <button class="btn btn-green" onclick="hostStartGame()">START GAME</button>
     </div>
 
     <div id="s-player-wait" class="screen" style="justify-content: center;">
         <div class="box" style="text-align: center;">
             <h2>YOU ARE ON</h2>
-            <div id="my-team-display" class="team-card is-orange" style="font-size: 2rem; margin: 20px 0;">TEAM ORANGE</div>
-            <p class="wait-text" style="font-size: 1.2rem;">Watch the Host Screen!</p>
+            <div id="my-team-display" class="team-card is-orange" style="font-size: 2rem; margin: 15px 0;">TEAM ORANGE</div>
+            <p class="wait-text" style="font-size: 1.2rem;">Waiting for Host to Start...</p>
         </div>
-    </div>
+        <div id="player-rules-container" style="width: 100%;"></div> </div>
 
     <div id="s-game" class="screen">
-        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-            <div class="timer-bar" style="flex: 1; margin-right: 15px;"><div id="timer" class="timer-fill"></div></div>
-            <div id="team-status-small" class="team-card is-orange" style="font-size: 0.9rem; padding: 8px 15px;">ORANGE</div>
+        <div class="game-header">
+            <div id="team-status-small" class="team-card is-orange" style="font-size: 0.8rem; padding: 5px 10px;">ORANGE</div>
+            <div class="card-counter">CARD <span id="card-count-display">1</span> / 15</div>
         </div>
+        
+        <div class="timer-bar"><div id="timer" class="timer-fill"></div></div>
         
         <div class="question-card-container">
             <div id="game-card" class="question-card card-purple">
@@ -181,16 +180,26 @@
     <div id="s-results" class="screen">
         <div class="box" style="text-align: center; border-color: var(--lime-green);">
             <h2 style="font-family: 'Bangers'; color: var(--lime-green);">ROUND OVER!</h2>
-            <div style="font-size: 1.1rem; margin-bottom: 10px;">The majority voted for:</div>
-            <div id="winning-answer-text" style="font-size: 2.5rem; line-height: 1.1; color: var(--text-dark); margin-bottom: 20px;"></div>
-            <div id="result-message" style="font-size: 1.3rem; font-weight: bold; padding: 10px; background: var(--bg-color); border-radius: 10px; border: 2px solid var(--text-dark);"></div>
+            <div style="font-size: 1.1rem; margin-bottom: 5px;">The majority voted for:</div>
+            <div id="winning-answer-text" style="font-size: 2.2rem; line-height: 1; color: var(--text-dark); margin-bottom: 15px;"></div>
+            <div id="result-message" style="font-size: 1.3rem; font-weight: bold; padding: 15px; background: var(--bg-color); border-radius: 10px; border: 3px solid var(--text-dark);"></div>
         </div>
         <div id="score-breakdown" style="width: 100%;"></div>
     </div>
 
+    <div id="s-game-over" class="screen">
+        <h1 style="font-size: 4rem; color: var(--lime-green);">WINNER!</h1>
+        <div class="box" style="text-align: center; border: 6px solid var(--lime-green); box-shadow: 0 0 20px var(--lime-green);">
+            <div id="winner-name" style="font-family: 'Bangers'; font-size: 3.5rem; color: var(--text-dark);">PLAYER 1</div>
+            <div style="font-size: 1.5rem;">Total Score: <span id="winner-score" style="font-weight:bold;">0</span></div>
+        </div>
+        <div id="final-scoreboard" style="width: 100%; margin-top: 20px;"></div>
+        <button class="btn btn-green" onclick="location.reload()" style="margin-top:20px;">PLAY AGAIN</button>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, onValue, update, get, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // --- 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴 ---
         const firebaseConfig = {
@@ -208,15 +217,49 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
-        // GAME DATA
         let myName = "";
         let roomCode = "";
         let isHost = false;
         let myTeam = "ORANGE";
+        let hostTimer = null;
+        let totalQuestions = 15;
         
-        // QUESTION BANK
+        // HTML for the Rules Section
+        const rulesHTML = `
+            <div class="box" style="text-align: left; border-color: var(--card-purple);">
+                <h2 class="title-font" style="color: var(--card-purple); text-align: center; font-size: 1.8rem;">GAME RULES</h2>
+                <ul style="list-style: none; padding: 0; font-size: 1.1rem;">
+                    <li style="margin-bottom: 12px;">
+                        <span class="title-font" style="color: var(--lime-green); font-size: 1.3rem;">1. THINK LIKE THE MAJORITY:</span><br>
+                        Answer with what you think the most people will choose.
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <span class="title-font" style="color: var(--tangerine-orange); font-size: 1.3rem;">2. JOIN THE GREEN TEAM:</span><br>
+                        Match the majority to get on the <span class="green-text title-font">GREEN TEAM</span>.
+                    </li>
+                    <li style="margin-bottom: 15px;">
+                        <span class="title-font" style="color: var(--card-teal); font-size: 1.3rem;">3. SCORE POINTS:</span>
+                        <div style="margin-left: 15px; margin-top: 8px; font-family: 'Bangers'; font-size: 1.2rem;">
+                            <div style="margin-bottom: 8px; padding: 5px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                                FROM ORANGE <span style="font-family: 'Permanent Marker'">→</span> GREEN: <span class="green-text" style="font-size: 1.4rem;">+1 POINT</span>
+                            </div>
+                            <div style="margin-bottom: 8px; padding: 5px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                                STAY ON GREEN: <span class="green-text" style="font-size: 1.6rem;">+2 POINTS</span>
+                            </div>
+                            <div style="padding: 5px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                                FROM GREEN <span style="font-family: 'Permanent Marker'">→</span> ORANGE: <span class="orange-text" style="font-size: 1.4rem;">0 POINTS</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="title-font" style="color: var(--text-dark); font-size: 1.3rem;">4. WIN:</span><br>
+                        Highest score after 15 rounds wins!
+                    </li>
+                </ul>
+            </div>
+        `;
+
         const allQuestions = [
-            // This or That (2 Options)
             { t: "Pancakes or Waffles?", o: ["Pancakes", "Waffles"] },
             { t: "Cats or Dogs?", o: ["Cats", "Dogs"] },
             { t: "Coffee or Tea?", o: ["Coffee", "Tea"] },
@@ -231,9 +274,7 @@
             { t: "Sweet or Salty?", o: ["Sweet", "Salty"] },
             { t: "Call or Text?", o: ["Call", "Text"] },
             { t: "Passenger or Driver?", o: ["Passenger", "Driver"] },
-            { t: "Online Shopping or In-Store?", o: ["Online", "In-Store"] },
-
-            // Best of Three (3 Options)
+            { t: "Online or In-Store?", o: ["Online", "In-Store"] },
             { t: "Best Pet?", o: ["Dog", "Cat", "Hamster"] },
             { t: "Best Superpower?", o: ["Flight", "Invisibility", "Strength"] },
             { t: "Worst Chore?", o: ["Dishes", "Laundry", "Vacuuming"] },
@@ -253,21 +294,42 @@
 
         // --- HOST FUNCTIONS ---
         window.createGame = async () => {
+            myName = document.getElementById('host-name').value.toUpperCase();
+            if(!myName) return alert("Please enter your name to host.");
+
             roomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
             isHost = true;
             const shuffled = allQuestions.sort(() => 0.5 - Math.random());
             const selectedQuestions = shuffled.slice(0, 15);
-
+            
+            // Host is created as a player immediately
             await set(ref(db, 'rooms/' + roomCode), {
-                state: 'LOBBY', questions: selectedQuestions, currentQIndex: -1, players: {}
+                state: 'LOBBY', 
+                questions: selectedQuestions, 
+                currentQIndex: -1, 
+                players: {
+                    [myName]: {
+                        score: 0,
+                        team: 'ORANGE',
+                        answer: -1
+                    }
+                }
             });
             document.getElementById('lobby-code').innerText = roomCode;
+            
+            // Inject Rules
+            document.getElementById('host-rules-container').innerHTML = rulesHTML;
             switchScreen('s-host-lobby');
+            
+            // Host listens for other players joining
             onValue(ref(db, 'rooms/' + roomCode + '/players'), (snap) => {
                 const p = snap.val() || {};
                 document.getElementById('host-player-list').innerHTML = 
-                    Object.keys(p).map(k => `<div class="team-card is-orange">${k}</div>`).join('');
+                    Object.keys(p).map(k => `<div class="team-card is-orange" style="font-size: 1rem; padding: 8px 15px;">${k}</div>`).join('');
             });
+
+            // Host also needs to listen to game loop to play
+            gameLoopListener(ref(db, 'rooms/' + roomCode));
         };
 
         window.hostStartGame = () => {
@@ -277,16 +339,45 @@
 
         function nextQuestion(index) {
             if(index >= 15) return endGame();
+            
             update(ref(db, 'rooms/' + roomCode), {
                 state: 'QUESTION', currentQIndex: index, startTime: Date.now()
             });
-            setTimeout(() => calculateResults(index), 15000);
+
+            startCheckingAnswers(index);
+
+            if(hostTimer) clearTimeout(hostTimer);
+            hostTimer = setTimeout(() => calculateResults(index), 15000);
+        }
+
+        function startCheckingAnswers(qIndex) {
+            const playersRef = ref(db, 'rooms/' + roomCode + '/players');
+            const listener = onValue(playersRef, (snap) => {
+                const players = snap.val() || {};
+                const playerKeys = Object.keys(players);
+                const totalPlayers = playerKeys.length;
+                if(totalPlayers === 0) return;
+
+                let answeredCount = 0;
+                playerKeys.forEach(key => {
+                    if(players[key].answer !== undefined && players[key].answer !== -1) answeredCount++;
+                });
+
+                if(answeredCount === totalPlayers && totalPlayers > 0) {
+                    off(playersRef, 'value', listener); 
+                    if(hostTimer) clearTimeout(hostTimer); 
+                    calculateResults(qIndex); 
+                }
+            });
+            setTimeout(() => off(playersRef, 'value', listener), 14000);
         }
 
         async function calculateResults(qIndex) {
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
             const data = snap.val();
+            if(data.state !== 'QUESTION' || data.currentQIndex !== qIndex) return;
+
             const players = data.players || {};
             const question = data.questions[qIndex];
 
@@ -318,6 +409,9 @@
                         else { pointsAdded = 2; }
                     } else { newTeam = "ORANGE"; pointsAdded = 0; }
                 }
+                
+                // Store previous team for results display
+                updates['players/' + name + '/previousTeam'] = currentTeam;
                 updates['players/' + name + '/score'] = (p.score || 0) + pointsAdded;
                 updates['players/' + name + '/team'] = newTeam;
                 updates['players/' + name + '/lastPoints'] = pointsAdded;
@@ -325,41 +419,66 @@
             });
             updates['state'] = 'RESULTS'; updates['lastWinner'] = winningText;
             await update(roomRef, updates);
-            setTimeout(() => nextQuestion(qIndex + 1), 8000);
+            setTimeout(() => nextQuestion(qIndex + 1), 7000); 
         }
 
-        function endGame() { update(ref(db, 'rooms/' + roomCode), { state: 'GAME_OVER' }); }
+        async function endGame() {
+            const snap = await get(ref(db, 'rooms/' + roomCode + '/players'));
+            const players = snap.val() || {};
+            const sorted = Object.entries(players).sort((a,b) => b[1].score - a[1].score);
+            const winnerName = sorted.length > 0 ? sorted[0][0] : "NOBODY";
+            const winnerScore = sorted.length > 0 ? sorted[0][1].score : 0;
+
+            update(ref(db, 'rooms/' + roomCode), { 
+                state: 'GAME_OVER',
+                winner: winnerName,
+                winnerScore: winnerScore
+            });
+        }
 
         // --- CLIENT FUNCTIONS ---
         window.joinGame = async () => {
             roomCode = document.getElementById('join-code').value.toUpperCase();
-            myName = document.getElementById('join-name').value.toUpperCase();
+            myName = document.getElementById('join-name-player').value.toUpperCase();
             if(!roomCode || !myName) return alert("Enter Code & Name");
+            
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
             if(!snap.exists()) return alert("Room not found");
+            
             await update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { score: 0, team: 'ORANGE', answer: -1 });
+            
+            // Inject Rules
+            document.getElementById('player-rules-container').innerHTML = rulesHTML;
             switchScreen('s-player-wait');
+            
+            gameLoopListener(roomRef);
+        };
+
+        function gameLoopListener(roomRef) {
             onValue(roomRef, (snap) => {
                 const data = snap.val(); if(!data) return;
-                if(data.players && data.players[myName]) { myTeam = data.players[myName].team; updateMyTeamUI(myTeam); }
-                if(data.state === 'QUESTION') { showQuestion(data.questions[data.currentQIndex]); }
+                
+                if(data.players && data.players[myName]) { 
+                    myTeam = data.players[myName].team; 
+                    updateMyTeamUI(myTeam); 
+                }
+
+                if(data.state === 'QUESTION') { 
+                    document.getElementById('card-count-display').innerText = (data.currentQIndex + 1);
+                    showQuestion(data.questions[data.currentQIndex]); 
+                }
                 else if(data.state === 'RESULTS') { showResults(data); }
+                else if(data.state === 'GAME_OVER') { showGameOver(data); }
             });
-        };
+        }
 
         function showQuestion(q) {
             switchScreen('s-game');
-            // Determine Card Style based on option count
             const card = document.getElementById('game-card');
             const title = document.getElementById('card-type-title');
-            if(q.o.length === 2) {
-                card.className = "question-card card-purple";
-                title.innerText = "THIS OR THAT";
-            } else {
-                card.className = "question-card card-teal";
-                title.innerText = "BEST OF THREE";
-            }
+            if(q.o.length === 2) { card.className = "question-card card-purple"; title.innerText = "THIS OR THAT"; }
+            else { card.className = "question-card card-teal"; title.innerText = "BEST OF THREE"; }
             
             document.getElementById('question-text').innerText = q.t;
             const area = document.getElementById('options-area');
@@ -371,10 +490,12 @@
                 btn.onclick = () => {
                     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
+                    document.getElementById('timer').style.width = document.getElementById('timer').offsetWidth + 'px'; 
                     update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { answer: i });
                 };
                 area.appendChild(btn);
             });
+            
             const bar = document.getElementById('timer');
             bar.style.transition = 'none'; bar.style.width = '100%';
             setTimeout(() => { bar.style.transition = 'width 15s linear'; bar.style.width = '0%'; }, 100);
@@ -385,11 +506,24 @@
             const myData = data.players[myName];
             document.getElementById('winning-answer-text').innerText = data.lastWinner;
             const msgDiv = document.getElementById('result-message');
-            if(myData.lastPoints > 0) {
-                msgDiv.innerHTML = `<span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+${myData.lastPoints} POINTS!</span> You are on TEAM GREEN!`;
+            
+            let message = "";
+            if (myData.team === 'GREEN') {
+                if (myData.previousTeam === 'GREEN') {
+                    message = `STAYED ON TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+2 POINTS!</span>`;
+                } else {
+                    message = `MOVED TO TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+1 POINT!</span>`;
+                }
             } else {
-                msgDiv.innerHTML = `Based on the votes, you are on <span class="orange-text" style="font-family:'Bangers'">TEAM ORANGE</span>.`;
+                // Currently ORANGE
+                if (myData.previousTeam === 'GREEN') {
+                     message = `MOVED TO TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
+                } else {
+                     message = `STAYED ON TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
+                }
             }
+            msgDiv.innerHTML = message;
+            
             const players = Object.entries(data.players).sort((a,b) => b[1].score - a[1].score);
             document.getElementById('score-breakdown').innerHTML = players.map(([name, p]) => `
                 <div class="result-row ${name === myName ? 'winner-highlight' : ''}">
@@ -400,6 +534,24 @@
                     <span class="score-pill">${p.score}</span>
                 </div>
             `).join('');
+        }
+
+        function showGameOver(data) {
+            switchScreen('s-game-over');
+            document.getElementById('winner-name').innerText = data.winner;
+            document.getElementById('winner-score').innerText = data.winnerScore;
+            
+            const players = Object.entries(data.players).sort((a,b) => b[1].score - a[1].score);
+            document.getElementById('final-scoreboard').innerHTML = players.map(([name, p], i) => `
+                <div class="result-row" style="border-color:${i===0 ? 'var(--lime-green)' : 'var(--text-dark)'}">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-family:'Bangers'; font-size:1.2rem;">#${i+1}</span>
+                        <span>${name}</span>
+                    </div>
+                    <span class="score-pill" style="background:${i===0 ? 'var(--lime-green)' : '#333'}">${p.score}</span>
+                </div>
+            `).join('');
+            startConfetti();
         }
 
         function updateMyTeamUI(team) {
@@ -415,6 +567,32 @@
         function switchScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+        }
+
+        // --- CONFETTI LOGIC ---
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            let pieces = [];
+            for(let i=0; i<150; i++) {
+                pieces.push({
+                    x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+                    color: ['#96e018', '#ff9f1a', '#a55eea', '#00d2d3'][Math.floor(Math.random()*4)],
+                    size: Math.random()*10+5, speed: Math.random()*3+2
+                });
+            }
+            function loop() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                pieces.forEach(p => {
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.size, p.size);
+                    p.y += p.speed;
+                    if(p.y > canvas.height) p.y = -20;
+                });
+                requestAnimationFrame(loop);
+            }
+            loop();
         }
     </script>
 </body>
