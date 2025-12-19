@@ -39,11 +39,11 @@
         .green-text { color: var(--lime-green); -webkit-text-stroke: 1px var(--text-dark); }
         .orange-text { color: var(--tangerine-orange); -webkit-text-stroke: 1px var(--text-dark); }
 
-        /* CONTAINERS - SCROLL FIX */
+        /* CONTAINERS */
         .screen { 
             display: none; width: 100%; max-width: 500px; height: 100%;
             flex-direction: column; align-items: center; z-index: 2; position: relative;
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-y: auto; 
             padding-bottom: 50px; 
         }
         .screen.active { display: flex; }
@@ -106,10 +106,14 @@
             background: var(--white); color: var(--text-dark); padding: 12px; border-radius: 15px; 
             font-size: 1.3rem; cursor: pointer; border: 4px solid var(--text-dark); width: 100%;
             text-align: center; transition: all 0.1s; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            position: relative; /* For locking visual */
         }
         .option-btn.selected { 
             background: var(--lime-green); color: var(--white); border-color: var(--text-dark);
             box-shadow: inset 0 0 0 3px var(--white); transform: scale(0.98);
+        }
+        .option-btn.disabled {
+            opacity: 0.6; pointer-events: none;
         }
 
         /* TIMER */
@@ -130,12 +134,8 @@
             h2 { font-size: 1.4rem; }
             .question-text { font-size: 1.4rem; }
             .option-btn { font-size: 1.1rem; padding: 10px; }
-            
-            /* Rules Text Fix */
             .rules-text { font-size: 0.9rem !important; }
             .rules-title { font-size: 1.1rem !important; }
-            
-            /* Celebration Screen Fix */
             #winner-name { font-size: 2.5rem !important; } 
             #s-game-over h1 { font-size: 3rem !important; }
         }
@@ -171,7 +171,6 @@
         <div class="box" style="text-align: center;">
             <h2>ROOM CODE:</h2>
             <div id="lobby-code" style="font-family: 'Bangers'; font-size: 3.5rem; color: var(--lime-green); -webkit-text-stroke: 2px var(--text-dark); margin: 5px 0;"></div>
-            
             <button class="btn btn-orange btn-small" onclick="resetDeckHistory()">RESET DECK HISTORY</button>
         </div>
         
@@ -287,9 +286,8 @@
             </div>
         `;
 
-        // --- QUESTION BANK (Your 60 Questions) ---
+        // --- QUESTION BANK ---
         const binaryQuestions = [
-            // --- CLASSIC ---
             { t: "Pancakes or Waffles?", o: ["Pancakes", "Waffles"] },
             { t: "Cats or Dogs?", o: ["Cats", "Dogs"] },
             { t: "Morning or Night?", o: ["Morning", "Night"] },
@@ -304,7 +302,6 @@
             { t: "Call or Text?", o: ["Call", "Text"] },
             { t: "Passenger or Driver?", o: ["Passenger", "Driver"] },
             { t: "Online or In-Store?", o: ["Online", "In-Store"] },
-            // --- DESI / SOUTH INDIAN ---
             { t: "Sambhar Style?", o: ["Sweet (Udupi)", "Spicy (Tamil/Andhra)"] },
             { t: "Coffee Preference?", o: ["Filter Coffee", "Instant"] },
             { t: "Best Accompaniment?", o: ["Coconut Chutney", "Tomato Chutney"] },
@@ -313,19 +310,17 @@
             { t: "The Real Thala?", o: ["Rajinikanth", "Dhoni (CSK)"] },
             { t: "Best Music Director?", o: ["A.R. Rahman", "Ilaiyaraaja"] },
             { t: "Best Director?", o: ["S.S. Rajamouli", "Mani Ratnam"] },
-            { t: "Nani is best at...", o: ["Comedy", "Emotional Roles"] },
-            // --- HYPOTHETICALS ---
             { t: "Alarm Clock Style?", o: ["Get up instantly", "Snooze 5 times"] },
             { t: "Time Travel?", o: ["Go to Past", "Go to Future"] },
             { t: "If you could only eat one?", o: ["Sweet", "Spicy"] },
             { t: "Best way to eat an apple?", o: ["Bite it", "Slices"] },
-            { t: "Live without...", o: ["Music", "Movies/TV"] },
+            { t: "Live without...", o: ["Music", "Movies"] },
             { t: "You see a ghost...", o: ["Run", "Talk to it"] },
             { t: "Know date of death OR cause?", o: ["Date", "Cause"] }
         ];
 
         const trinaryQuestions = [
-            // --- CLASSIC ---
+            { t: "Fav Nani Movie?", o: ["Jersey", "Hi Nanna", "Pilla Zamindar"] },
             { t: "Best Superpower?", o: ["Flight", "Invisibility", "Strength"] },
             { t: "Worst Chore?", o: ["Dishes", "Laundry", "Vacuuming"] },
             { t: "Best Fast Food?", o: ["McDonalds", "KFC", "Burger King"] },
@@ -336,7 +331,6 @@
             { t: "Most annoying sound?", o: ["Chewing", "Crying Baby", "Alarm Clock"] },
             { t: "Worst place to sleep?", o: ["Floor", "Car", "Chair"] },
             { t: "Best Weekend Activity?", o: ["Sleeping", "Partying", "Gaming"] },
-            // --- DESI / SOUTH INDIAN ---
             { t: "The Ultimate Breakfast?", o: ["Idli & Vada", "Dosa", "Puri & Sagoo"] },
             { t: "Malayalam Movies are...", o: ["Masterpieces", "Too slow", "Confusing"] },
             { t: "Cinema Snacks?", o: ["Popcorn", "Samosa/Puffs", "Nachos"] },
@@ -351,7 +345,6 @@
             { t: "Best Childhood Cartoon?", o: ["Tom & Jerry", "Doraemon", "Shinchan"] },
             { t: "Best Candy?", o: ["Melody", "Mango Bite", "Pulse"] },
             { t: "Honeymoon Destination?", o: ["Maldives", "Europe", "Bali"] },
-            // --- HYPOTHETICALS ---
             { t: "Zombies attack! Weapon?", o: ["Baseball Bat", "Gun", "Sword"] },
             { t: "Reading subtitles?", o: ["Always On", "Only foreign films", "Never"] },
             { t: "Sleeping with the door...", o: ["Open", "Closed", "Locked"] },
@@ -360,7 +353,7 @@
             { t: "Pizza Crust?", o: ["Eat it", "Leave it", "Dip it"] }
         ];
 
-        // Combine and Assign IDs dynamically (1 to 60)
+        // Combine and Assign IDs dynamically
         const allQuestions = [...binaryQuestions, ...trinaryQuestions].map((q, index) => ({
             ...q,
             id: index + 1
@@ -382,26 +375,15 @@
             roomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
             isHost = true;
             
-            // --- NON-REPEAT LOGIC (Smart Memory) ---
+            // --- NON-REPEAT LOGIC ---
             let seenIDs = JSON.parse(localStorage.getItem('gtw_seen_ids') || '[]');
-            
-            // Filter out already seen questions
             let availableQuestions = allQuestions.filter(q => !seenIDs.includes(q.id));
-            
-            // If we don't have enough for a full game (15), Reset History
             if (availableQuestions.length < 15) {
                 seenIDs = [];
                 availableQuestions = [...allQuestions];
-                // alert("Cycle Complete! Reshuffling Deck."); // Optional alert
             }
-
-            // Shuffle
             availableQuestions.sort(() => Math.random() - 0.5);
-            
-            // Pick 15
             const selectedQuestions = availableQuestions.slice(0, 15);
-            
-            // Save new IDs to history
             const newSeenIDs = [...seenIDs, ...selectedQuestions.map(q => q.id)];
             localStorage.setItem('gtw_seen_ids', JSON.stringify(newSeenIDs));
             // ------------------------
@@ -561,8 +543,13 @@
             });
         }
 
+        // Variable to track if locked
+        let hasLockedAnswer = false;
+
         function showQuestion(q) {
             switchScreen('s-game');
+            hasLockedAnswer = false; // Reset lock state for new question
+
             const card = document.getElementById('game-card');
             const title = document.getElementById('card-type-title');
             if(q.o.length === 2) { card.className = "question-card card-purple"; title.innerText = "THIS OR THAT"; }
@@ -576,15 +563,24 @@
                 btn.className = "option-btn";
                 btn.innerText = opt;
                 btn.onclick = () => {
-                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    // --- STOP TIMER ANIMATION (FROZEN VISUAL) ---
+                    if (hasLockedAnswer) return; // Prevent changing answer
+                    hasLockedAnswer = true; // Lock it
+
+                    // Visual Lock
+                    document.querySelectorAll('.option-btn').forEach(b => {
+                        b.classList.add('disabled'); // Dim others
+                    });
+                    btn.classList.remove('disabled');
+                    btn.classList.add('selected'); // Highlight selected
+
+                    // Freeze Timer Visual
                     const timerBar = document.getElementById('timer');
                     const computedStyle = window.getComputedStyle(timerBar);
                     const currentWidth = computedStyle.getPropertyValue('width');
                     timerBar.style.transition = 'none';
                     timerBar.style.width = currentWidth;
-                    // --------------------------------------------
+
+                    // Send to DB
                     update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { answer: i });
                 };
                 area.appendChild(btn);
