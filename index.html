@@ -250,12 +250,17 @@
         let roomCode = "";
         let isHost = false;
         let myTeam = "ORANGE";
-        let hostTimer = null;
-        let activePlayerListener = null; 
         
-        // --- TRACKERS ---
+        // --- IMPROVED TIMER MANAGEMENT ---
+        let hostTimer = null; // 15s Round Timer
+        let nextRoundTimer = null; // 7s Delay Timer
+        let activePlayerListener = null; 
+        let animationFrameId = null; // Confetti loop
+        
+        // --- STATE TRACKERS ---
         let lastRenderedQIndex = -1; 
-        let hasLockedAnswer = false; 
+        let hasLockedAnswer = false;
+        let isProcessingRound = false; // 🔴 LOCK: Prevents double-execution
         
         // Rules HTML
         const rulesHTML = `
@@ -369,7 +374,7 @@
             }
         };
         
-        // --- CHECK FOR EXISTING SESSION ON LOAD (Refreshes) ---
+        // --- CHECK FOR EXISTING SESSION ON LOAD ---
         window.onload = () => {
             const savedRoom = sessionStorage.getItem('gtw_room');
             const savedName = sessionStorage.getItem('gtw_name');
@@ -456,9 +461,20 @@
            nextQuestion(0);
         };
  
+        function clearGlobalTimers() {
+            if(hostTimer) clearTimeout(hostTimer);
+            if(nextRoundTimer) clearTimeout(nextRoundTimer);
+            hostTimer = null;
+            nextRoundTimer = null;
+        }
+ 
         function nextQuestion(index) {
+           // 🔴 LOCK RESET: New round started
+           isProcessingRound = false; 
+           
            if(index >= 15) return endGame();
            
+           clearGlobalTimers();
            cleanupListeners(); 
  
            update(ref(db, 'rooms/' + roomCode), {
@@ -466,8 +482,11 @@
             });
  
            startCheckingAnswers(index);
-           if(hostTimer) clearTimeout(hostTimer);
-            hostTimer = setTimeout(() => calculateResults(index), 15000);
+           
+           // Fallback timer: Force end round after 15s if answer listener fails
+           hostTimer = setTimeout(() => {
+               if(!isProcessingRound) calculateResults(index);
+           }, 15000);
         }
  
         function cleanupListeners() {
@@ -482,6 +501,8 @@
             const playersRef = ref(db, 'rooms/' + roomCode + '/players');
             
             activePlayerListener = onValue(playersRef, (snap) => {
+                if(isProcessingRound) return; // Ignore if we are already calculating
+ 
                 const players = snap.val() || {};
                 const playerKeys = Object.keys(players);
                 const totalPlayers = playerKeys.length;
@@ -493,19 +514,23 @@
                 });
  
                if(answeredCount === totalPlayers && totalPlayers > 0) {
-                   cleanupListeners(); 
-                   if(hostTimer) clearTimeout(hostTimer); 
                    calculateResults(qIndex); 
                 }
             });
         }
  
         async function calculateResults(qIndex) {
-            cleanupListeners(); 
+            if(isProcessingRound) return; // Double Check Safety Lock
+            isProcessingRound = true; // 🔴 LOCK: processing started
+ 
+            clearGlobalTimers(); // Kill the 15s timer immediately
+            cleanupListeners(); // Kill the listener immediately
  
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
             const data = snap.val();
+           
+           // State integrity check
            if(data.state !== 'QUESTION' || data.currentQIndex !== qIndex) return;
  
             const players = data.players || {};
@@ -546,11 +571,17 @@
                updates['players/' + name + '/answer'] = -1;
             });
            updates['state'] = 'RESULTS'; updates['lastWinner'] = winningText;
+            
             await update(roomRef, updates);
-           setTimeout(() => nextQuestion(qIndex + 1), 7000); 
+            
+            // 🔴 START NEXT ROUND DELAY TIMER
+            nextRoundTimer = setTimeout(() => nextQuestion(qIndex + 1), 7000); 
         }
  
         async function endGame() {
+            clearGlobalTimers();
+            cleanupListeners();
+ 
             const snap = await get(ref(db, 'rooms/' + roomCode + '/players'));
             const players = snap.val() || {};
             const sorted = Object.entries(players).sort((a,b) => b[1].score - a[1].score);
@@ -566,6 +597,8 @@
  
         window.resetGameSoft = async () => {
             if(!isHost) return;
+            
+            clearGlobalTimers();
             
             const snap = await get(ref(db, 'rooms/' + roomCode + '/players'));
             const players = snap.val() || {};
@@ -587,13 +620,11 @@
         };
  
         // --- CLIENT FUNCTIONS ---
-        // 🔴 CRITICAL FIX FOR MANUAL RE-JOINING 🔴
         window.joinGame = async () => {
             roomCode = document.getElementById('join-code').value.toUpperCase();
             myName = document.getElementById('join-name-player').value.toUpperCase();
            if(!roomCode || !myName) return alert("Enter Code & Name");
             
-            // Save for Refresh
             sessionStorage.setItem('gtw_room', roomCode);
             sessionStorage.setItem('gtw_name', myName);
             sessionStorage.setItem('gtw_role', 'PLAYER');
@@ -602,15 +633,12 @@
             const snap = await get(roomRef);
            if(!snap.exists()) return alert("Room not found");
  
-           // CHECK IF PLAYER ALREADY EXISTS
            const playerRef = ref(db, 'rooms/' + roomCode + '/players/' + myName);
            const playerSnap = await get(playerRef);
  
            if (!playerSnap.exists()) {
-               // New Player: Initialize Score to 0
                await update(playerRef, { score: 0, team: 'ORANGE', answer: -1 });
            } 
-           // If they exist, we do NOTHING to their score. We just let them listen.
  
            document.getElementById('player-rules-container').innerHTML = rulesHTML;
            switchScreen('s-player-wait');
@@ -627,6 +655,8 @@
                 }
  
                if(data.state === 'LOBBY') {
+                   // Clean up confetti if we go back to lobby
+                   stopConfetti();
                    if(isHost && document.getElementById('s-host-lobby').style.display === 'none') {
                        switchScreen('s-host-lobby');
                    } else if (!isHost && document.getElementById('s-player-wait').style.display === 'none') {
@@ -757,6 +787,9 @@
  
         // --- CONFETTI LOGIC ---
         function startConfetti() {
+            // Stop previous if exists
+            stopConfetti();
+            
             const canvas = document.getElementById('confetti-canvas');
             const ctx = canvas.getContext('2d');
            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -776,9 +809,21 @@
                    p.y += p.speed;
                    if(p.y > canvas.height) p.y = -20;
                 });
-               requestAnimationFrame(loop);
+               animationFrameId = requestAnimationFrame(loop);
             }
             loop();
+        }
+ 
+        function stopConfetti() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            const canvas = document.getElementById('confetti-canvas');
+            if(canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
         }
     </script>
 </body>
