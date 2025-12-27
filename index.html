@@ -289,7 +289,8 @@
         let lastRenderedQIndex = -1; 
         let hasLockedAnswer = false;
         let isProcessingRound = false; 
-        let currentLocalState = 'LOBBY'; // To track state for persistent listener
+        let currentLocalState = 'LOBBY'; 
+        let activePlayerListener = null; // Used for clean detach
         
         // Rules HTML
         const rulesHTML = `
@@ -508,6 +509,18 @@
            
            clearGlobalTimers();
  
+           // 1. Explicitly detach old listener if it exists to be safe
+           if (activePlayerListener) {
+               const playersRef = ref(db, 'rooms/' + roomCode + '/players');
+               off(playersRef, 'value', activePlayerListener);
+               activePlayerListener = null;
+           }
+
+           // 2. Start new listener for THIS SPECIFIC ROUND
+           // We use a new persistent listener function, but we re-bind it here to be safe
+           // Actually, we are using the persistent one below. 
+           // BUT we need to make sure the state updates are atomic.
+
            update(ref(db, 'rooms/' + roomCode), {
                 state: 'QUESTION', currentQIndex: index, startTime: Date.now()
             });
@@ -518,22 +531,32 @@
            }, 15000);
         }
  
-        // Persistent listener for the host
+        // 🔴 FIX: LISTENER CHECKS FOR "ROUND MATCHING" TO PREVENT RACE CONDITIONS 🔴
         function startPersistentHostListener() {
             const playersRef = ref(db, 'rooms/' + roomCode + '/players');
-            onValue(playersRef, (snap) => {
-                // Only act if we are in the QUESTION phase
-                if (currentLocalState !== 'QUESTION') return;
+            // Save reference to activePlayerListener so we can off() it if needed (though we keep this one running)
+            activePlayerListener = onValue(playersRef, async (snap) => {
+                // Get fresh state to compare rounds
+                const roomSnap = await get(ref(db, 'rooms/' + roomCode));
+                const roomData = roomSnap.val();
+                
+                if (!roomData || roomData.state !== 'QUESTION') return;
                 if (isProcessingRound) return; 
  
                 const players = snap.val() || {};
                 const playerKeys = Object.keys(players);
                 const totalPlayers = playerKeys.length;
                 if(totalPlayers === 0) return;
- 
+                
+                const currentQ = roomData.currentQIndex;
                 let answeredCount = 0;
+                
                 playerKeys.forEach(key => {
-                    if(players[key].answer !== undefined && players[key].answer !== -1) answeredCount++;
+                    const p = players[key];
+                    // 🔴 MAGIC FIX: Only count answer if it belongs to THIS round
+                    if(p.answer !== undefined && p.answer !== -1 && p.answerRound === currentQ) {
+                        answeredCount++;
+                    }
                 });
  
                 // UPDATE UI COUNTER
@@ -548,6 +571,7 @@
         
         // Manual Force Button (During Question)
         window.forceCalculateResults = () => {
+            // Force it regardless of count
             if (currentLocalState === 'QUESTION' && !isProcessingRound) {
                 calculateResults();
             }
@@ -580,7 +604,13 @@
             const question = data.questions[qIndex];
             
             let votes = new Array(question.o.length).fill(0);
-           Object.values(players).forEach(p => { if(p.answer !== undefined && p.answer !== -1) votes[p.answer]++; });
+            
+            // Only count valid answers for this round
+            Object.values(players).forEach(p => { 
+                if(p.answer !== undefined && p.answer !== -1 && p.answerRound === qIndex) {
+                    votes[p.answer]++; 
+                }
+            });
  
             let maxVotes = Math.max(...votes);
             let winningIndices = [];
@@ -593,7 +623,10 @@
  
            Object.keys(players).forEach(name => {
                 const p = players[name];
-                const isCorrect = winningIndices.includes(p.answer);
+                // Only grade valid answers
+                const playerAnsweredThisRound = (p.answer !== undefined && p.answer !== -1 && p.answerRound === qIndex);
+                
+                const isCorrect = playerAnsweredThisRound && winningIndices.includes(p.answer);
                 const currentTeam = p.team || "ORANGE";
                 let newTeam = currentTeam; let pointsAdded = 0;
  
@@ -612,7 +645,8 @@
                updates['players/' + name + '/score'] = (p.score || 0) + pointsAdded;
                updates['players/' + name + '/team'] = newTeam;
                updates['players/' + name + '/lastPoints'] = pointsAdded;
-               updates['players/' + name + '/answer'] = -1;
+               updates['players/' + name + '/answer'] = -1; 
+               // Don't reset answerRound yet, -1 covers it
             });
            updates['state'] = 'RESULTS'; updates['lastWinner'] = winningText;
             
@@ -742,7 +776,7 @@
  
                if(data.state === 'LOBBY') {
                    stopConfetti();
-                   // 🔴 FIX: USE CLASSLIST CHECK INSTEAD OF STYLE.DISPLAY
+                   // 🔴 FINAL FIX: USE CSS CLASS CHECK
                    if(isHost && !document.getElementById('s-host-lobby').classList.contains('active')) {
                        switchScreen('s-host-lobby');
                    } else if (!isHost && !document.getElementById('s-player-wait').classList.contains('active')) {
@@ -822,7 +856,11 @@
                    timerBar.style.transition = 'none';
                    timerBar.style.width = currentWidth;
  
-                   update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { answer: i });
+                   // 🔴 SEND ANSWER WITH ROUND INDEX STAMP
+                   update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { 
+                       answer: i,
+                       answerRound: lastRenderedQIndex // STAMP IT!
+                   });
                 };
                area.appendChild(btn);
             });
