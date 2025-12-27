@@ -742,9 +742,10 @@
  
                if(data.state === 'LOBBY') {
                    stopConfetti();
-                   if(isHost && document.getElementById('s-host-lobby').style.display === 'none') {
+                   // 🔴 FIX: USE CLASSLIST CHECK INSTEAD OF STYLE.DISPLAY
+                   if(isHost && !document.getElementById('s-host-lobby').classList.contains('active')) {
                        switchScreen('s-host-lobby');
-                   } else if (!isHost && document.getElementById('s-player-wait').style.display === 'none') {
+                   } else if (!isHost && !document.getElementById('s-player-wait').classList.contains('active')) {
                        switchScreen('s-player-wait');
                    }
                    lastRenderedQIndex = -1; 
