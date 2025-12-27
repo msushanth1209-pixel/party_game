@@ -7,24 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg-color: #f4f7f6;
-            --text-dark: #2d3436;
-            --lime-green: #96e018; 
-            --tangerine-orange: #ff9f1a; 
-            --card-purple: #a55eea; 
-            --card-teal: #00d2d3; 
+           --bg-color: #f4f7f6;
+           --text-dark: #2d3436;
+           --lime-green: #96e018; 
+           --tangerine-orange: #ff9f1a; 
+           --card-purple: #a55eea; 
+           --card-teal: #00d2d3; 
             --white: #ffffff;
         }
-
+ 
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background-color: var(--bg-color); 
-            background-image: radial-gradient(var(--lime-green) 2%, transparent 2%), radial-gradient(var(--tangerine-orange) 2%, transparent 2%);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+           background-color: var(--bg-color); 
+           background-image: radial-gradient(var(--lime-green) 2%, transparent 2%), radial-gradient(var(--tangerine-orange) 2%, transparent 2%);
+           background-size: 40px 40px;
+           background-position: 0 0, 20px 20px;
             color: var(--text-dark); 
-            font-family: 'Permanent Marker', cursive;
+           font-family: 'Permanent Marker', cursive;
             display: flex; flex-direction: column; align-items: center; 
             height: 100vh; overflow: hidden; padding: 10px; 
         }
@@ -36,26 +36,26 @@
         
         .green-text { color: var(--lime-green); -webkit-text-stroke: 1px var(--text-dark); }
         .orange-text { color: var(--tangerine-orange); -webkit-text-stroke: 1px var(--text-dark); }
-
+ 
         /* CONTAINERS */
         .screen { 
             display: none; width: 100%; max-width: 500px; height: 100%;
-            flex-direction: column; align-items: center; z-index: 2; position: relative;
-            overflow-y: auto; padding-bottom: 50px; 
+           flex-direction: column; align-items: center; z-index: 2; position: relative;
+           overflow-y: auto; padding-bottom: 50px; 
         }
         .screen.active { display: flex; }
         
         .box { background: var(--white); padding: 20px; border-radius: 20px; width: 100%; margin: 15px 0; border: 4px solid var(--text-dark); box-shadow: 5px 5px 0 rgba(0,0,0,0.1); }
-
+ 
         /* INPUTS & BUTTONS */
         input { 
-            background: var(--bg-color); border: 3px solid var(--text-dark); border-radius: 15px; padding: 12px; width: 90%; 
-            font-family: 'Permanent Marker', cursive; font-size: 1.2rem; text-align: center; margin: 8px 0; outline: none; color: var(--text-dark); 
+           background: var(--bg-color); border: 3px solid var(--text-dark); border-radius: 15px; padding: 12px; width: 90%; 
+           font-family: 'Permanent Marker', cursive; font-size: 1.2rem; text-align: center; margin: 8px 0; outline: none; color: var(--text-dark); 
         }
         .btn { 
             border: 4px solid var(--text-dark); padding: 12px 30px; border-radius: 50px; font-family: 'Bangers', cursive; 
             font-size: 1.5rem; cursor: pointer; margin: 10px; width: 90%; transition: all 0.1s; color: var(--text-dark); 
-            box-shadow: 4px 4px 0 var(--text-dark);
+           box-shadow: 4px 4px 0 var(--text-dark);
         }
         .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--text-dark); }
         .btn-green { background: var(--lime-green); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
@@ -65,95 +65,95 @@
         /* TEAM INDICATOR */
         .team-card { 
             padding: 10px 20px; border-radius: 12px; font-family: 'Bangers', cursive; font-size: 1.1rem; 
-            text-transform: uppercase; border: 4px solid var(--text-dark); display: inline-block; 
-            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+           text-transform: uppercase; border: 4px solid var(--text-dark); display: inline-block; 
+           box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         }
         .is-green { background: var(--lime-green); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
         .is-orange { background: var(--tangerine-orange); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
-
+ 
         /* GAMEPLAY UI */
         .game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-shrink: 0; }
         .card-counter { font-family: 'Bangers'; font-size: 1.1rem; background: var(--text-dark); color: white; padding: 5px 15px; border-radius: 15px; }
-
-        .question-card-container { width: 100%; margin: 5px 0; perspective: 1000px; flex-shrink: 0; }
+ 
+       .question-card-container { width: 100%; margin: 5px 0; perspective: 1000px; flex-shrink: 0; }
         .question-card {
             width: 100%; border-radius: 25px; padding: 20px; border: 5px solid var(--text-dark);
-            box-shadow: 8px 8px 0 rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center;
+           box-shadow: 8px 8px 0 rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center;
         }
-        .card-purple { 
-            background-color: var(--card-purple); color: var(--white); 
-            background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.1) 25%, transparent 25%);
-            background-size: 20px 20px;
+        .card-purple {
+           background-color: var(--card-purple); color: var(--white); 
+           background-image: linear-gradient(135deg, rgba(255,255,255,0.1) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.1) 25%, transparent 25%);
+           background-size: 20px 20px;
         }
         .card-teal { 
-            background-color: var(--card-teal); color: var(--white);
-            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10%);
-            background-size: 30px 30px;
+           background-color: var(--card-teal); color: var(--white);
+           background-image: radial-gradient(circle, rgba(255,255,255,0.15) 10%, transparent 10%);
+           background-size: 30px 30px;
         }
         .card-title {
-            font-family: 'Bangers', cursive; font-size: 1.5rem; margin-bottom: 10px;
-            background: var(--white); color: var(--text-dark); padding: 5px 20px;
-            border-radius: 20px; border: 3px solid var(--text-dark); transform: rotate(-2deg);
+           font-family: 'Bangers', cursive; font-size: 1.5rem; margin-bottom: 10px;
+           background: var(--white); color: var(--text-dark); padding: 5px 20px;
+           border-radius: 20px; border: 3px solid var(--text-dark); transform: rotate(-2deg);
         }
         .question-text { font-size: 1.6rem; margin: 15px 0; line-height: 1.1; text-align: center; text-shadow: 2px 2px 0 rgba(0,0,0,0.2); }
         
         /* OPTIONS */
-        .options-container { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+       .options-container { width: 100%; display: flex; flex-direction: column; gap: 8px; }
         .option-btn { 
-            background: var(--white); color: var(--text-dark); padding: 12px; border-radius: 15px; 
+           background: var(--white); color: var(--text-dark); padding: 12px; border-radius: 15px; 
             font-size: 1.3rem; cursor: pointer; border: 4px solid var(--text-dark); width: 100%;
-            text-align: center; transition: transform 0.1s; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+           text-align: center; transition: transform 0.1s; box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
             position: relative;
         }
-        .option-btn.selected { 
-            background: var(--lime-green); color: var(--white); border-color: var(--text-dark);
-            box-shadow: inset 0 0 0 3px var(--white); transform: scale(0.98);
+       .option-btn.selected { 
+           background: var(--lime-green); color: var(--white); border-color: var(--text-dark);
+           box-shadow: inset 0 0 0 3px var(--white); transform: scale(0.98);
         }
         /* LOCKED STATE */
-        .option-btn.disabled { opacity: 0.5; pointer-events: none; }
-
+       .option-btn.disabled { opacity: 0.5; pointer-events: none; }
+ 
         /* TIMER */
         .timer-bar { height: 12px; background: var(--white); border: 3px solid var(--text-dark); width: 100%; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
         .timer-fill { height: 100%; background: var(--lime-green); width: 100%; transition: width 1s linear; }
-
+ 
         /* RESULTS */
         .result-row { display: flex; justify-content: space-between; width: 100%; padding: 10px; background: var(--white); margin: 6px 0; border-radius: 12px; align-items: center; border: 3px solid var(--text-dark); }
         .score-pill { font-family: 'Bangers', cursive; font-size: 1.2rem; padding: 5px 12px; border-radius: 20px; background: var(--text-dark); color: var(--white); min-width: 40px; text-align: center; }
-        .winner-highlight { border-color: var(--lime-green); background: #f0ffe0; }
-
+       .winner-highlight { border-color: var(--lime-green); background: #f0ffe0; }
+ 
         /* CONFETTI CANVAS */
-        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
-
+       #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+ 
         /* MOBILE RESPONSIVE */
         @media (max-width: 600px) {
             h1 { font-size: 2.2rem; }
             h2 { font-size: 1.4rem; }
-            .question-text { font-size: 1.4rem; }
-            .option-btn { font-size: 1.1rem; padding: 10px; }
-            .rules-text { font-size: 0.9rem !important; }
-            .rules-title { font-size: 1.1rem !important; }
-            #winner-name { font-size: 2.5rem !important; } 
-            #s-game-over h1 { font-size: 3rem !important; }
+           .question-text { font-size: 1.4rem; }
+           .option-btn { font-size: 1.1rem; padding: 10px; }
+           .rules-text { font-size: 0.9rem !important; }
+           .rules-title { font-size: 1.1rem !important; }
+           #winner-name { font-size: 2.5rem !important; } 
+           #s-game-over h1 { font-size: 3rem !important; }
         }
-
+ 
     </style>
 </head>
 <body>
-
+ 
     <canvas id="confetti-canvas"></canvas>
-
+ 
     <div id="s-home" class="screen active">
-        <h1>GREEN TEAM WINS</h1>
+       <h1>GREEN TEAM WINS</h1>
         <div class="box">
             <h2 class="title-font" style="font-size: 1.5rem;">HOST A GAME</h2>
             <input type="text" id="host-name" placeholder="YOUR NAME" maxlength="10">
             <button class="btn btn-green" onclick="createGame()">CREATE & JOIN</button>
             
             <div style="display: flex; align-items: center; margin: 20px 0;">
-                <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
-                <span style="margin: 0 10px; font-family: 'Bangers'; font-size: 1.2rem;">OR JOIN</span>
-                <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
-            </div>
+               <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
+               <span style="margin: 0 10px; font-family: 'Bangers'; font-size: 1.2rem;">OR JOIN</span>
+               <div style="flex: 1; height: 3px; background: var(--text-dark);"></div>
+           </div>
             
             <h2 class="title-font" style="font-size: 1.5rem;">JOIN A GAME</h2>
             <input type="text" id="join-code" placeholder="ROOM CODE" maxlength="4" style="text-transform:uppercase;">
@@ -161,11 +161,12 @@
             <button class="btn btn-orange" onclick="joinGame()">JOIN GAME</button>
         </div>
         <p style="text-align:center; font-size:0.9rem;">4 Unique Rounds. No Repeats!</p>
+        <p id="rejoin-msg" style="text-align:center; color: var(--lime-green); display:none;">Restoring session...</p>
     </div>
-
+ 
     <div id="s-host-lobby" class="screen">
         <div class="box" style="text-align: center;">
-            <h2>ROOM CODE:</h2>
+           <h2>ROOM CODE:</h2>
             <div id="lobby-code" style="font-family: 'Bangers'; font-size: 3.5rem; color: var(--lime-green); -webkit-text-stroke: 2px var(--text-dark); margin: 5px 0;"></div>
             <button class="btn btn-orange btn-small" onclick="resetDeckHistory()">RESET DECK HISTORY</button>
         </div>
@@ -177,16 +178,16 @@
         </div>
         <button class="btn btn-green" onclick="hostStartGame()">START GAME</button>
     </div>
-
+ 
     <div id="s-player-wait" class="screen">
         <div class="box" style="text-align: center;">
-            <h2>YOU ARE ON</h2>
+           <h2>YOU ARE ON</h2>
             <div id="my-team-display" class="team-card is-orange" style="font-size: 1.8rem; margin: 15px 0;">TEAM ORANGE</div>
             <p class="wait-text" style="font-size: 1.1rem;">Waiting for Host to Start...</p>
         </div>
         <div id="player-rules-container" style="width: 100%;"></div> 
     </div>
-
+ 
     <div id="s-game" class="screen">
         <div class="game-header">
             <div id="team-status-small" class="team-card is-orange" style="font-size: 0.8rem; padding: 5px 10px;">ORANGE</div>
@@ -197,13 +198,13 @@
         
         <div class="question-card-container">
             <div id="game-card" class="question-card card-purple">
-                <div id="card-type-title" class="card-title">THIS OR THAT</div>
-                <div id="question-text" class="question-text">Loading...</div>
-                <div id="options-area" class="options-container"></div>
-            </div>
+               <div id="card-type-title" class="card-title">THIS OR THAT</div>
+               <div id="question-text" class="question-text">Loading...</div>
+               <div id="options-area" class="options-container"></div>
+           </div>
         </div>
     </div>
-
+ 
     <div id="s-results" class="screen">
         <div class="box" style="text-align: center; border-color: var(--lime-green);">
             <h2 style="font-family: 'Bangers'; color: var(--lime-green);">ROUND OVER!</h2>
@@ -213,7 +214,7 @@
         </div>
         <div id="score-breakdown" style="width: 100%;"></div>
     </div>
-
+ 
     <div id="s-game-over" class="screen">
         <h1 style="font-size: 3.5rem; color: var(--lime-green);">WINNER!</h1>
         <div class="box" style="text-align: center; border: 6px solid var(--lime-green); box-shadow: 0 0 20px var(--lime-green);">
@@ -221,26 +222,27 @@
             <div style="font-size: 1.5rem;">Total Score: <span id="winner-score" style="font-weight:bold;">0</span></div>
         </div>
         <div id="final-scoreboard" style="width: 100%; margin-top: 20px;"></div>
-        <button class="btn btn-green" onclick="location.reload()" style="margin-top:20px;">PLAY AGAIN</button>
+        
+        <button class="btn btn-green" onclick="resetGameSoft()" style="margin-top:20px;">PLAY AGAIN (SAME PLAYERS)</button>
     </div>
-
+ 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, onValue, update, get, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
+ 
         // --- 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴 ---
         const firebaseConfig = {
             apiKey: "AIzaSyAGI4eCHZzDAIpp-jcFmfQN-kSU-yWGFNk",
-            authDomain: "green-team-wins.firebaseapp.com",
-            databaseURL: "https://green-team-wins-default-rtdb.firebaseio.com",
+           authDomain: "green-team-wins.firebaseapp.com",
+           databaseURL: "https://green-team-wins-default-rtdb.firebaseio.com",
             projectId: "green-team-wins",
-            storageBucket: "green-team-wins.firebasestorage.app",
-            messagingSenderId: "409829635726",
+           storageBucket: "green-team-wins.firebasestorage.app",
+           messagingSenderId: "409829635726",
             appId: "1:409829635726:web:bd9cd52af347170f40fbdf",
-            measurementId: "G-5XFWD6S8J1"
+           measurementId: "G-5XFWD6S8J1"
         };
         // ---------------------------------------------
-
+ 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         
@@ -249,43 +251,43 @@
         let isHost = false;
         let myTeam = "ORANGE";
         let hostTimer = null;
-        let totalQuestions = 15;
+        let activePlayerListener = null; 
         
-        // --- CRITICAL FIX: TRACKERS TO PREVENT RE-RENDERS ---
-        let lastRenderedQIndex = -1; // Only render when this changes
-        let hasLockedAnswer = false; // Local lock state
+        // --- TRACKERS ---
+        let lastRenderedQIndex = -1; 
+        let hasLockedAnswer = false; 
         
         // Rules HTML
         const rulesHTML = `
             <div class="box" style="text-align: left; border-color: var(--card-purple); padding: 15px;">
                 <h2 class="title-font" style="color: var(--card-purple); text-align: center; font-size: 1.5rem;">GAME RULES</h2>
                 <ul style="list-style: none; padding: 0; font-size: 1rem;" class="rules-text">
-                    <li style="margin-bottom: 10px;">
-                        <span class="title-font rules-title" style="color: var(--lime-green); font-size: 1.2rem;">1. THINK LIKE THE MAJORITY:</span><br>
-                        Answer with what you think the most people will choose.
-                    </li>
-                    <li style="margin-bottom: 10px;">
-                        <span class="title-font rules-title" style="color: var(--tangerine-orange); font-size: 1.2rem;">2. JOIN THE GREEN TEAM:</span><br>
-                        Match the majority to get on the <span class="green-text title-font">GREEN TEAM</span>.
-                    </li>
-                    <li style="margin-bottom: 12px;">
-                        <span class="title-font rules-title" style="color: var(--card-teal); font-size: 1.2rem;">3. SCORE POINTS:</span>
-                        <div style="margin-left: 10px; margin-top: 5px; font-family: 'Bangers'; font-size: 1.1rem;">
-                            <div style="margin-bottom: 5px; padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                   <li style="margin-bottom: 10px;">
+                       <span class="title-font rules-title" style="color: var(--lime-green); font-size: 1.2rem;">1. THINK LIKE THE MAJORITY:</span><br>
+                       Answer with what you think the most people will choose.
+                   </li>
+                   <li style="margin-bottom: 10px;">
+                       <span class="title-font rules-title" style="color: var(--tangerine-orange); font-size: 1.2rem;">2. JOIN THE GREEN TEAM:</span><br>
+                       Match the majority to get on the <span class="green-text title-font">GREEN TEAM</span>.
+                   </li>
+                   <li style="margin-bottom: 12px;">
+                       <span class="title-font rules-title" style="color: var(--card-teal); font-size: 1.2rem;">3. SCORE POINTS:</span>
+                       <div style="margin-left: 10px; margin-top: 5px; font-family: 'Bangers'; font-size: 1.1rem;">
+                           <div style="margin-bottom: 5px; padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
                                 ORANGE <span style="font-family: 'Permanent Marker'">→</span> GREEN: <span class="green-text">+1 POINT</span>
-                            </div>
-                            <div style="margin-bottom: 5px; padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                           </div>
+                           <div style="margin-bottom: 5px; padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
                                 STAY GREEN: <span class="green-text">+2 POINTS</span>
-                            </div>
-                            <div style="padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
+                           </div>
+                           <div style="padding: 4px; background: rgba(255,255,255,0.5); border-radius: 8px;">
                                 GREEN <span style="font-family: 'Permanent Marker'">→</span> ORANGE: <span class="orange-text">0 POINTS</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                           </div>
+                       </div>
+                   </li>
+               </ul>
+           </div>
         `;
-
+ 
         // --- QUESTION BANK ---
         const binaryQuestions = [
             { t: "Pancakes or Waffles?", o: ["Pancakes", "Waffles"] },
@@ -319,7 +321,7 @@
             { t: "You see a ghost...", o: ["Run", "Talk to it"] },
             { t: "Know date of death OR cause?", o: ["Date", "Cause"] }
         ];
-
+ 
         const trinaryQuestions = [
             { t: "Fav Nani Movie?", o: ["Jersey", "Hi Nanna", "Pilla Zamindar"] },
             { t: "Best Superpower?", o: ["Flight", "Invisibility", "Strength"] },
@@ -353,192 +355,289 @@
             { t: "Best brain time?", o: ["Early Morning", "Late Night", "Never"] },
             { t: "Pizza Crust?", o: ["Eat it", "Leave it", "Dip it"] }
         ];
-
+ 
         // Combine and Assign IDs dynamically
         const allQuestions = [...binaryQuestions, ...trinaryQuestions].map((q, index) => ({
             ...q,
             id: index + 1
         }));
-
+ 
         window.resetDeckHistory = () => {
-            if(confirm("Are you sure? This will reset the card memory for a fresh game.")) {
-                localStorage.removeItem('gtw_seen_ids');
-                alert("Deck Reset! All cards are available again.");
+           if(confirm("Are you sure? This will reset the card memory for a fresh game.")) {
+               localStorage.removeItem('gtw_seen_ids');
+               alert("Deck Reset! All cards are available again.");
             }
         };
-
+        
+        // --- CHECK FOR EXISTING SESSION ON LOAD (Refreshes) ---
+        window.onload = () => {
+            const savedRoom = sessionStorage.getItem('gtw_room');
+            const savedName = sessionStorage.getItem('gtw_name');
+            const savedRole = sessionStorage.getItem('gtw_role');
+ 
+            if(savedRoom && savedName) {
+                // Auto-Login
+                roomCode = savedRoom;
+                myName = savedName;
+                isHost = (savedRole === 'HOST');
+                document.getElementById('rejoin-msg').style.display = 'block';
+                
+                document.getElementById('join-code').value = roomCode;
+                document.getElementById('join-name-player').value = myName;
+                document.getElementById('lobby-code').innerText = roomCode;
+ 
+                document.getElementById('host-rules-container').innerHTML = rulesHTML;
+                document.getElementById('player-rules-container').innerHTML = rulesHTML;
+ 
+                const roomRef = ref(db, 'rooms/' + roomCode);
+                gameLoopListener(roomRef);
+                
+                if(isHost) {
+                     onValue(ref(db, 'rooms/' + roomCode + '/players'), (snap) => {
+                        const p = snap.val() || {};
+                        document.getElementById('host-player-list').innerHTML = 
+                           Object.keys(p).map(k => `<div class="team-card is-orange" style="font-size: 0.9rem; padding: 6px 12px;">${k}</div>`).join('');
+                    });
+                }
+            }
+        };
+ 
         // --- HOST FUNCTIONS ---
         window.createGame = async () => {
             myName = document.getElementById('host-name').value.toUpperCase();
-            if(!myName) return alert("Please enter your name to host.");
-
+           if(!myName) return alert("Please enter your name to host.");
+ 
             roomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
             isHost = true;
             
-            // --- NON-REPEAT LOGIC ---
-            let seenIDs = JSON.parse(localStorage.getItem('gtw_seen_ids') || '[]');
-            let availableQuestions = allQuestions.filter(q => !seenIDs.includes(q.id));
-            if (availableQuestions.length < 15) {
-                seenIDs = [];
-                availableQuestions = [...allQuestions];
-            }
-            availableQuestions.sort(() => Math.random() - 0.5);
-            const selectedQuestions = availableQuestions.slice(0, 15);
-            const newSeenIDs = [...seenIDs, ...selectedQuestions.map(q => q.id)];
-            localStorage.setItem('gtw_seen_ids', JSON.stringify(newSeenIDs));
-            // ------------------------
-
+            sessionStorage.setItem('gtw_room', roomCode);
+            sessionStorage.setItem('gtw_name', myName);
+            sessionStorage.setItem('gtw_role', 'HOST');
+            
+            const selectedQuestions = getNewQuestions();
+ 
             await set(ref(db, 'rooms/' + roomCode), {
                 state: 'LOBBY', 
-                questions: selectedQuestions, 
-                currentQIndex: -1, 
-                players: {
-                    [myName]: { score: 0, team: 'ORANGE', answer: -1 }
+               questions: selectedQuestions, 
+               currentQIndex: -1, 
+               players: {
+                   [myName]: { score: 0, team: 'ORANGE', answer: -1 }
                 }
             });
-            document.getElementById('lobby-code').innerText = roomCode;
-            document.getElementById('host-rules-container').innerHTML = rulesHTML;
-            switchScreen('s-host-lobby');
+           document.getElementById('lobby-code').innerText = roomCode;
+           document.getElementById('host-rules-container').innerHTML = rulesHTML;
+           switchScreen('s-host-lobby');
             
-            onValue(ref(db, 'rooms/' + roomCode + '/players'), (snap) => {
+           onValue(ref(db, 'rooms/' + roomCode + '/players'), (snap) => {
                 const p = snap.val() || {};
-                document.getElementById('host-player-list').innerHTML = 
-                    Object.keys(p).map(k => `<div class="team-card is-orange" style="font-size: 0.9rem; padding: 6px 12px;">${k}</div>`).join('');
+               document.getElementById('host-player-list').innerHTML = 
+                   Object.keys(p).map(k => `<div class="team-card is-orange" style="font-size: 0.9rem; padding: 6px 12px;">${k}</div>`).join('');
             });
-
-            gameLoopListener(ref(db, 'rooms/' + roomCode));
+ 
+           gameLoopListener(ref(db, 'rooms/' + roomCode));
         };
-
+ 
+        function getNewQuestions() {
+             let seenIDs = JSON.parse(localStorage.getItem('gtw_seen_ids') || '[]');
+            let availableQuestions = allQuestions.filter(q => !seenIDs.includes(q.id));
+            if (availableQuestions.length < 15) {
+               seenIDs = [];
+               availableQuestions = [...allQuestions];
+            }
+           availableQuestions.sort(() => Math.random() - 0.5);
+            const selectedQuestions = availableQuestions.slice(0, 15);
+            const newSeenIDs = [...seenIDs, ...selectedQuestions.map(q => q.id)];
+           localStorage.setItem('gtw_seen_ids', JSON.stringify(newSeenIDs));
+           return selectedQuestions;
+        }
+ 
         window.hostStartGame = () => {
-            update(ref(db, 'rooms/' + roomCode), { state: 'GAME_START' });
-            nextQuestion(0);
+           update(ref(db, 'rooms/' + roomCode), { state: 'GAME_START' });
+           nextQuestion(0);
         };
-
+ 
         function nextQuestion(index) {
-            if(index >= 15) return endGame();
-            update(ref(db, 'rooms/' + roomCode), {
+           if(index >= 15) return endGame();
+           
+           cleanupListeners(); 
+ 
+           update(ref(db, 'rooms/' + roomCode), {
                 state: 'QUESTION', currentQIndex: index, startTime: Date.now()
             });
-
-            startCheckingAnswers(index);
-            if(hostTimer) clearTimeout(hostTimer);
+ 
+           startCheckingAnswers(index);
+           if(hostTimer) clearTimeout(hostTimer);
             hostTimer = setTimeout(() => calculateResults(index), 15000);
         }
-
+ 
+        function cleanupListeners() {
+            if (activePlayerListener) {
+                const playersRef = ref(db, 'rooms/' + roomCode + '/players');
+                off(playersRef, 'value', activePlayerListener);
+                activePlayerListener = null;
+            }
+        }
+ 
         function startCheckingAnswers(qIndex) {
             const playersRef = ref(db, 'rooms/' + roomCode + '/players');
-            const listener = onValue(playersRef, (snap) => {
+            
+            activePlayerListener = onValue(playersRef, (snap) => {
                 const players = snap.val() || {};
                 const playerKeys = Object.keys(players);
                 const totalPlayers = playerKeys.length;
-                if(totalPlayers === 0) return;
-
+               if(totalPlayers === 0) return;
+ 
                 let answeredCount = 0;
-                playerKeys.forEach(key => {
-                    if(players[key].answer !== undefined && players[key].answer !== -1) answeredCount++;
+               playerKeys.forEach(key => {
+                   if(players[key].answer !== undefined && players[key].answer !== -1) answeredCount++;
                 });
-
-                if(answeredCount === totalPlayers && totalPlayers > 0) {
-                    off(playersRef, 'value', listener); 
-                    if(hostTimer) clearTimeout(hostTimer); 
-                    calculateResults(qIndex); 
+ 
+               if(answeredCount === totalPlayers && totalPlayers > 0) {
+                   cleanupListeners(); 
+                   if(hostTimer) clearTimeout(hostTimer); 
+                   calculateResults(qIndex); 
                 }
             });
-            setTimeout(() => off(playersRef, 'value', listener), 14000);
         }
-
+ 
         async function calculateResults(qIndex) {
+            cleanupListeners(); 
+ 
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
             const data = snap.val();
-            if(data.state !== 'QUESTION' || data.currentQIndex !== qIndex) return;
-
+           if(data.state !== 'QUESTION' || data.currentQIndex !== qIndex) return;
+ 
             const players = data.players || {};
             const question = data.questions[qIndex];
             let votes = new Array(question.o.length).fill(0);
-            Object.values(players).forEach(p => { if(p.answer !== undefined && p.answer !== -1) votes[p.answer]++; });
-
+           Object.values(players).forEach(p => { if(p.answer !== undefined && p.answer !== -1) votes[p.answer]++; });
+ 
             let maxVotes = Math.max(...votes);
             let winningIndices = [];
             if (maxVotes > 0) { votes.forEach((count, i) => { if(count === maxVotes) winningIndices.push(i); }); }
-
+ 
             let updates = {};
             let isTie = winningIndices.length > 1;
             let winningText = winningIndices.map(i => question.o[i]).join(" & ");
-            if(maxVotes === 0) winningText = "NOBODY VOTED";
-
-            Object.keys(players).forEach(name => {
+           if(maxVotes === 0) winningText = "NOBODY VOTED";
+ 
+           Object.keys(players).forEach(name => {
                 const p = players[name];
                 const isCorrect = winningIndices.includes(p.answer);
                 const currentTeam = p.team || "ORANGE";
                 let newTeam = currentTeam; let pointsAdded = 0;
-
+ 
                 if (maxVotes === 0) { newTeam = "ORANGE"; pointsAdded = 0; }
                 else if (isTie) {
                     if (currentTeam === "GREEN" && isCorrect) pointsAdded = 2;
-                    else { if(currentTeam === "GREEN" && !isCorrect) newTeam = "ORANGE"; pointsAdded = 0; }
+                   else { if(currentTeam === "GREEN" && !isCorrect) newTeam = "ORANGE"; pointsAdded = 0; }
                 } else {
                     if (isCorrect) {
-                        if (currentTeam === "ORANGE") { newTeam = "GREEN"; pointsAdded = 1; }
-                        else { pointsAdded = 2; }
+                       if (currentTeam === "ORANGE") { newTeam = "GREEN"; pointsAdded = 1; }
+                       else { pointsAdded = 2; }
                     } else { newTeam = "ORANGE"; pointsAdded = 0; }
                 }
                 
-                updates['players/' + name + '/previousTeam'] = currentTeam;
-                updates['players/' + name + '/score'] = (p.score || 0) + pointsAdded;
-                updates['players/' + name + '/team'] = newTeam;
-                updates['players/' + name + '/lastPoints'] = pointsAdded;
-                updates['players/' + name + '/answer'] = -1;
+               updates['players/' + name + '/previousTeam'] = currentTeam;
+               updates['players/' + name + '/score'] = (p.score || 0) + pointsAdded;
+               updates['players/' + name + '/team'] = newTeam;
+               updates['players/' + name + '/lastPoints'] = pointsAdded;
+               updates['players/' + name + '/answer'] = -1;
             });
-            updates['state'] = 'RESULTS'; updates['lastWinner'] = winningText;
+           updates['state'] = 'RESULTS'; updates['lastWinner'] = winningText;
             await update(roomRef, updates);
-            setTimeout(() => nextQuestion(qIndex + 1), 7000); 
+           setTimeout(() => nextQuestion(qIndex + 1), 7000); 
         }
-
+ 
         async function endGame() {
             const snap = await get(ref(db, 'rooms/' + roomCode + '/players'));
             const players = snap.val() || {};
             const sorted = Object.entries(players).sort((a,b) => b[1].score - a[1].score);
             const winnerName = sorted.length > 0 ? sorted[0][0] : "NOBODY";
             const winnerScore = sorted.length > 0 ? sorted[0][1].score : 0;
-
-            update(ref(db, 'rooms/' + roomCode), { 
+ 
+           update(ref(db, 'rooms/' + roomCode), { 
                 state: 'GAME_OVER',
-                winner: winnerName,
-                winnerScore: winnerScore
+               winner: winnerName,
+               winnerScore: winnerScore
             });
         }
-
+ 
+        window.resetGameSoft = async () => {
+            if(!isHost) return;
+            
+            const snap = await get(ref(db, 'rooms/' + roomCode + '/players'));
+            const players = snap.val() || {};
+            
+            let updates = {};
+            Object.keys(players).forEach(name => {
+                updates['players/' + name + '/score'] = 0;
+                updates['players/' + name + '/team'] = 'ORANGE';
+                updates['players/' + name + '/answer'] = -1;
+            });
+            
+            const newQuestions = getNewQuestions();
+            updates['questions'] = newQuestions;
+            updates['currentQIndex'] = -1;
+            updates['state'] = 'LOBBY';
+            updates['winner'] = null;
+            
+            await update(ref(db, 'rooms/' + roomCode), updates);
+        };
+ 
         // --- CLIENT FUNCTIONS ---
+        // 🔴 CRITICAL FIX FOR MANUAL RE-JOINING 🔴
         window.joinGame = async () => {
             roomCode = document.getElementById('join-code').value.toUpperCase();
             myName = document.getElementById('join-name-player').value.toUpperCase();
-            if(!roomCode || !myName) return alert("Enter Code & Name");
+           if(!roomCode || !myName) return alert("Enter Code & Name");
             
+            // Save for Refresh
+            sessionStorage.setItem('gtw_room', roomCode);
+            sessionStorage.setItem('gtw_name', myName);
+            sessionStorage.setItem('gtw_role', 'PLAYER');
+ 
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
-            if(!snap.exists()) return alert("Room not found");
-            
-            await update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { score: 0, team: 'ORANGE', answer: -1 });
-            document.getElementById('player-rules-container').innerHTML = rulesHTML;
-            switchScreen('s-player-wait');
-            gameLoopListener(roomRef);
+           if(!snap.exists()) return alert("Room not found");
+ 
+           // CHECK IF PLAYER ALREADY EXISTS
+           const playerRef = ref(db, 'rooms/' + roomCode + '/players/' + myName);
+           const playerSnap = await get(playerRef);
+ 
+           if (!playerSnap.exists()) {
+               // New Player: Initialize Score to 0
+               await update(playerRef, { score: 0, team: 'ORANGE', answer: -1 });
+           } 
+           // If they exist, we do NOTHING to their score. We just let them listen.
+ 
+           document.getElementById('player-rules-container').innerHTML = rulesHTML;
+           switchScreen('s-player-wait');
+           gameLoopListener(roomRef);
         };
-
+ 
         function gameLoopListener(roomRef) {
-            onValue(roomRef, (snap) => {
+           onValue(roomRef, (snap) => {
                 const data = snap.val(); if(!data) return;
                 
-                if(data.players && data.players[myName]) { 
-                    myTeam = data.players[myName].team; 
-                    updateMyTeamUI(myTeam); 
+               if(data.players && data.players[myName]) { 
+                   myTeam = data.players[myName].team; 
+                   updateMyTeamUI(myTeam); 
                 }
-
-                if(data.state === 'QUESTION') { 
-                    // --- RENDER GUARD: Only render if we moved to a new question ---
+ 
+               if(data.state === 'LOBBY') {
+                   if(isHost && document.getElementById('s-host-lobby').style.display === 'none') {
+                       switchScreen('s-host-lobby');
+                   } else if (!isHost && document.getElementById('s-player-wait').style.display === 'none') {
+                       switchScreen('s-player-wait');
+                   }
+                   lastRenderedQIndex = -1; 
+               }
+               else if(data.state === 'QUESTION') { 
                     if (data.currentQIndex !== lastRenderedQIndex) {
                         lastRenderedQIndex = data.currentQIndex;
-                        hasLockedAnswer = false; // Reset lock for new round
+                        hasLockedAnswer = false; 
                         document.getElementById('card-count-display').innerText = (data.currentQIndex + 1);
                         showQuestion(data.questions[data.currentQIndex]); 
                     }
@@ -547,141 +646,137 @@
                 else if(data.state === 'GAME_OVER') { showGameOver(data); }
             });
         }
-
+ 
         function showQuestion(q) {
-            switchScreen('s-game');
+           switchScreen('s-game');
             const card = document.getElementById('game-card');
             const title = document.getElementById('card-type-title');
-            if(q.o.length === 2) { card.className = "question-card card-purple"; title.innerText = "THIS OR THAT"; }
+           if(q.o.length === 2) { card.className = "question-card card-purple"; title.innerText = "THIS OR THAT"; }
             else { card.className = "question-card card-teal"; title.innerText = "BEST OF THREE"; }
             
-            document.getElementById('question-text').innerText = q.t;
+           document.getElementById('question-text').innerText = q.t;
             const area = document.getElementById('options-area');
-            area.innerHTML = "";
-            q.o.forEach((opt, i) => {
+           area.innerHTML = "";
+           q.o.forEach((opt, i) => {
                 const btn = document.createElement('div');
-                btn.className = "option-btn";
-                btn.innerText = opt;
-                btn.onclick = () => {
-                    if (hasLockedAnswer) return; // Prevent any interaction if locked
-                    
-                    hasLockedAnswer = true; // Lock immediately locally
-
-                    // Visual Lock
-                    document.querySelectorAll('.option-btn').forEach(b => {
-                        b.classList.add('disabled'); // Dim others
-                    });
-                    btn.classList.remove('disabled');
-                    btn.classList.add('selected'); // Highlight selected
-
-                    // Freeze Timer Visual
-                    const timerBar = document.getElementById('timer');
-                    const computedStyle = window.getComputedStyle(timerBar);
-                    const currentWidth = computedStyle.getPropertyValue('width');
-                    timerBar.style.transition = 'none';
-                    timerBar.style.width = currentWidth;
-
-                    // Send to DB
-                    update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { answer: i });
+               btn.className = "option-btn";
+               btn.innerText = opt;
+               btn.onclick = () => {
+                   if (hasLockedAnswer) return; 
+                   
+                   hasLockedAnswer = true; 
+ 
+                   document.querySelectorAll('.option-btn').forEach(b => {
+                       b.classList.add('disabled'); 
+                   });
+                   btn.classList.remove('disabled');
+                   btn.classList.add('selected'); 
+ 
+                   const timerBar = document.getElementById('timer');
+                   const computedStyle = window.getComputedStyle(timerBar);
+                   const currentWidth = computedStyle.getPropertyValue('width');
+                   timerBar.style.transition = 'none';
+                   timerBar.style.width = currentWidth;
+ 
+                   update(ref(db, 'rooms/' + roomCode + '/players/' + myName), { answer: i });
                 };
-                area.appendChild(btn);
+               area.appendChild(btn);
             });
             
-            // Start Timer Animation
             const bar = document.getElementById('timer');
-            bar.style.transition = 'none'; bar.style.width = '100%';
-            setTimeout(() => { bar.style.transition = 'width 15s linear'; bar.style.width = '0%'; }, 100);
+           bar.style.transition = 'none'; bar.style.width = '100%';
+           setTimeout(() => { bar.style.transition = 'width 15s linear'; bar.style.width = '0%'; }, 100);
         }
-
+ 
         function showResults(data) {
-            switchScreen('s-results');
+           switchScreen('s-results');
             const myData = data.players[myName];
-            document.getElementById('winning-answer-text').innerText = data.lastWinner;
+           document.getElementById('winning-answer-text').innerText = data.lastWinner;
             const msgDiv = document.getElementById('result-message');
             
             let message = "";
             if (myData.team === 'GREEN') {
                 if (myData.previousTeam === 'GREEN') {
-                    message = `STAYED ON TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+2 POINTS!</span>`;
+                   message = `STAYED ON TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+2 POINTS!</span>`;
                 } else {
-                    message = `MOVED TO TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+1 POINT!</span>`;
+                   message = `MOVED TO TEAM GREEN! <span class="green-text" style="font-family:'Bangers'; font-size:1.5rem;">+1 POINT!</span>`;
                 }
             } else {
                 if (myData.previousTeam === 'GREEN') {
-                     message = `MOVED TO TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
+                    message = `MOVED TO TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
                 } else {
-                     message = `STAYED ON TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
+                    message = `STAYED ON TEAM ORANGE. <span class="orange-text" style="font-family:'Bangers'; font-size:1.5rem;">0 POINTS.</span>`;
                 }
             }
-            msgDiv.innerHTML = message;
+           msgDiv.innerHTML = message;
             
             const players = Object.entries(data.players).sort((a,b) => b[1].score - a[1].score);
-            document.getElementById('score-breakdown').innerHTML = players.map(([name, p]) => `
-                <div class="result-row ${name === myName ? 'winner-highlight' : ''}">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span class="team-card ${p.team === 'GREEN' ? 'is-green' : 'is-orange'}" style="margin:0; font-size:0.8rem; padding: 5px 10px;">${p.team}</span>
-                        <span>${name}</span>
-                    </div>
-                    <span class="score-pill">${p.score}</span>
-                </div>
-            `).join('');
+           document.getElementById('score-breakdown').innerHTML = players.map(([name, p]) => `
+               <div class="result-row ${name === myName ? 'winner-highlight' : ''}">
+                   <div style="display:flex; align-items:center; gap:10px;">
+                       <span class="team-card ${p.team === 'GREEN' ? 'is-green' : 'is-orange'}" style="margin:0; font-size:0.8rem; padding: 5px 10px;">${p.team}</span>
+                       <span>${name}</span>
+                   </div>
+                   <span class="score-pill">${p.score}</span>
+               </div>
+           `).join('');
         }
-
+ 
         function showGameOver(data) {
-            switchScreen('s-game-over');
-            document.getElementById('winner-name').innerText = data.winner;
-            document.getElementById('winner-score').innerText = data.winnerScore;
+           switchScreen('s-game-over');
+           document.getElementById('winner-name').innerText = data.winner;
+           document.getElementById('winner-score').innerText = data.winnerScore;
             
             const players = Object.entries(data.players).sort((a,b) => b[1].score - a[1].score);
-            document.getElementById('final-scoreboard').innerHTML = players.map(([name, p], i) => `
-                <div class="result-row" style="border-color:${i===0 ? 'var(--lime-green)' : 'var(--text-dark)'}">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-family:'Bangers'; font-size:1.2rem;">#${i+1}</span>
-                        <span>${name}</span>
-                    </div>
-                    <span class="score-pill" style="background:${i===0 ? 'var(--lime-green)' : '#333'}">${p.score}</span>
-                </div>
-            `).join('');
-            startConfetti();
+           document.getElementById('final-scoreboard').innerHTML = players.map(([name, p], i) => `
+               <div class="result-row" style="border-color:${i===0 ? 'var(--lime-green)' : 'var(--text-dark)'}">
+                   <div style="display:flex; align-items:center; gap:10px;">
+                       <span style="font-family:'Bangers'; font-size:1.2rem;">#${i+1}</span>
+                       <span>${name}</span>
+                   </div>
+                   <span class="score-pill" style="background:${i===0 ? 'var(--lime-green)' : '#333'}">${p.score}</span>
+               </div>
+           `).join('');
+           startConfetti();
         }
-
+ 
         function updateMyTeamUI(team) {
             const els = document.querySelectorAll('.team-card');
-            els.forEach(el => {
-                if(el.id === 'my-team-display' || el.id === 'team-status-small') {
-                    el.className = `team-card ${team === 'GREEN' ? 'is-green' : 'is-orange'}`;
-                    el.innerText = team === 'GREEN' ? "TEAM GREEN" : "TEAM ORANGE";
+           els.forEach(el => {
+               if(el.id === 'my-team-display' || el.id === 'team-status-small') {
+                   el.className = `team-card ${team === 'GREEN' ? 'is-green' : 'is-orange'}`;
+                   el.innerText = team === 'GREEN' ? "TEAM GREEN" : "TEAM ORANGE";
                 }
             });
         }
-
+ 
         function switchScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+           document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+           document.getElementById(id).classList.add('active');
         }
-
+ 
         // --- CONFETTI LOGIC ---
         function startConfetti() {
             const canvas = document.getElementById('confetti-canvas');
             const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+           canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             let pieces = [];
             for(let i=0; i<150; i++) {
-                pieces.push({
-                    x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
-                    color: ['#96e018', '#ff9f1a', '#a55eea', '#00d2d3'][Math.floor(Math.random()*4)],
-                    size: Math.random()*10+5, speed: Math.random()*3+2
+               pieces.push({
+                   x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
+                   color: ['#96e018', '#ff9f1a', '#a55eea', '#00d2d3'][Math.floor(Math.random()*4)],
+                   size: Math.random()*10+5, speed: Math.random()*3+2
                 });
             }
             function loop() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                pieces.forEach(p => {
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(p.x, p.y, p.size, p.size);
-                    p.y += p.speed;
-                    if(p.y > canvas.height) p.y = -20;
+               ctx.clearRect(0,0,canvas.width,canvas.height);
+               pieces.forEach(p => {
+                   ctx.fillStyle = p.color;
+                   ctx.fillRect(p.x, p.y, p.size, p.size);
+                   p.y += p.speed;
+                   if(p.y > canvas.height) p.y = -20;
                 });
-                requestAnimationFrame(loop);
+               requestAnimationFrame(loop);
             }
             loop();
         }
