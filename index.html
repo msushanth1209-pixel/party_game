@@ -14,6 +14,7 @@
            --card-purple: #a55eea; 
            --card-teal: #00d2d3; 
             --white: #ffffff;
+           --danger-red: #ff4757;
         }
  
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
@@ -60,8 +61,20 @@
         .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--text-dark); }
         .btn-green { background: var(--lime-green); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
         .btn-orange { background: var(--tangerine-orange); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
+        .btn-red { background: var(--danger-red); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
         .btn-small { font-size: 1rem; padding: 8px 15px; width: auto; margin-top: 5px; }
         
+        /* EXIT BUTTON */
+        .exit-btn {
+            position: absolute; top: 0; right: 0;
+            background: var(--danger-red); color: white;
+            border: 3px solid var(--text-dark); border-radius: 50%;
+            width: 40px; height: 40px; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; font-family: 'Bangers';
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+ 
         /* TEAM INDICATOR */
         .team-card { 
             padding: 10px 20px; border-radius: 12px; font-family: 'Bangers', cursive; font-size: 1.1rem; 
@@ -72,7 +85,7 @@
         .is-orange { background: var(--tangerine-orange); color: var(--white); -webkit-text-stroke: 1px var(--text-dark); }
  
         /* GAMEPLAY UI */
-        .game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-shrink: 0; }
+        .game-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-shrink: 0; padding-top: 10px; }
         .card-counter { font-family: 'Bangers'; font-size: 1.1rem; background: var(--text-dark); color: white; padding: 5px 15px; border-radius: 15px; }
  
        .question-card-container { width: 100%; margin: 5px 0; perspective: 1000px; flex-shrink: 0; }
@@ -165,6 +178,7 @@
     </div>
  
     <div id="s-host-lobby" class="screen">
+        <button class="exit-btn" onclick="exitGame()">✕</button>
         <div class="box" style="text-align: center;">
            <h2>ROOM CODE:</h2>
             <div id="lobby-code" style="font-family: 'Bangers'; font-size: 3.5rem; color: var(--lime-green); -webkit-text-stroke: 2px var(--text-dark); margin: 5px 0;"></div>
@@ -180,6 +194,7 @@
     </div>
  
     <div id="s-player-wait" class="screen">
+        <button class="exit-btn" onclick="exitGame()">✕</button>
         <div class="box" style="text-align: center;">
            <h2>YOU ARE ON</h2>
             <div id="my-team-display" class="team-card is-orange" style="font-size: 1.8rem; margin: 15px 0;">TEAM ORANGE</div>
@@ -189,6 +204,7 @@
     </div>
  
     <div id="s-game" class="screen">
+        <button class="exit-btn" onclick="exitGame()">✕</button>
         <div class="game-header">
             <div id="team-status-small" class="team-card is-orange" style="font-size: 0.8rem; padding: 5px 10px;">ORANGE</div>
             <div class="card-counter">CARD <span id="card-count-display">1</span> / 15</div>
@@ -198,7 +214,7 @@
             <div id="answer-count" style="font-family:'Bangers'; font-size:1.2rem; color:var(--card-purple); margin-bottom:5px;">ANSWERS: 0/0</div>
             <button class="btn btn-orange btn-small" style="font-size:0.9rem; padding:5px 10px; width:auto;" onclick="forceCalculateResults()">FORCE NEXT ROUND</button>
         </div>
-
+ 
         <div class="timer-bar"><div id="timer" class="timer-fill"></div></div>
         
         <div class="question-card-container">
@@ -211,8 +227,14 @@
     </div>
  
     <div id="s-results" class="screen">
+        <button class="exit-btn" onclick="exitGame()">✕</button>
         <div class="box" style="text-align: center; border-color: var(--lime-green);">
             <h2 style="font-family: 'Bangers'; color: var(--lime-green);">ROUND OVER!</h2>
+            
+            <div id="host-results-controls" style="display:none; justify-content:center; margin-bottom:10px;">
+                <button class="btn btn-green btn-small" onclick="forceNextQuestion()">NEXT QUESTION >></button>
+            </div>
+            
             <div style="font-size: 1rem; margin-bottom: 5px;">The majority voted for:</div>
             <div id="winning-answer-text" style="font-size: 2rem; line-height: 1; color: var(--text-dark); margin-bottom: 15px;"></div>
             <div id="result-message" style="font-size: 1.2rem; font-weight: bold; padding: 15px; background: var(--bg-color); border-radius: 10px; border: 3px solid var(--text-dark);"></div>
@@ -221,6 +243,7 @@
     </div>
  
     <div id="s-game-over" class="screen">
+        <button class="exit-btn" onclick="exitGame()">✕</button>
         <h1 style="font-size: 3.5rem; color: var(--lime-green);">WINNER!</h1>
         <div class="box" style="text-align: center; border: 6px solid var(--lime-green); box-shadow: 0 0 20px var(--lime-green);">
             <div id="winner-name" style="font-family: 'Bangers'; font-size: 3.5rem; color: var(--text-dark);">PLAYER 1</div>
@@ -229,11 +252,12 @@
         <div id="final-scoreboard" style="width: 100%; margin-top: 20px;"></div>
         
         <button class="btn btn-green" onclick="resetGameSoft()" style="margin-top:20px;">PLAY AGAIN (SAME PLAYERS)</button>
+        <button class="btn btn-red" onclick="resetGameHard()" style="margin-top:10px;">NEW GAME (RESET ROOM)</button>
     </div>
  
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update, get, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, onValue, update, get, remove, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
  
         // --- 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴 ---
         const firebaseConfig = {
@@ -494,14 +518,13 @@
            }, 15000);
         }
  
-        // 🔵 NEW: One persistent listener for the host. 
-        // This solves the "Stuck" issue by never disconnecting.
+        // Persistent listener for the host
         function startPersistentHostListener() {
             const playersRef = ref(db, 'rooms/' + roomCode + '/players');
             onValue(playersRef, (snap) => {
                 // Only act if we are in the QUESTION phase
                 if (currentLocalState !== 'QUESTION') return;
-                if (isProcessingRound) return; // Don't double count
+                if (isProcessingRound) return; 
  
                 const players = snap.val() || {};
                 const playerKeys = Object.keys(players);
@@ -523,11 +546,21 @@
             });
         }
         
-        // Manual Force Button
+        // Manual Force Button (During Question)
         window.forceCalculateResults = () => {
             if (currentLocalState === 'QUESTION' && !isProcessingRound) {
                 calculateResults();
             }
+        };
+        
+        // Manual Force Button (During Results/Scoreboard)
+        window.forceNextQuestion = async () => {
+             if (!isHost) return;
+             const snap = await get(ref(db, 'rooms/' + roomCode));
+             const data = snap.val();
+             if(data && data.currentQIndex !== undefined) {
+                 nextQuestion(data.currentQIndex + 1);
+             }
         };
  
         async function calculateResults() {
@@ -540,7 +573,6 @@
             const snap = await get(roomRef);
             const data = snap.val();
            
-           // State integrity check
            if(data.state !== 'QUESTION') return;
             
             const qIndex = data.currentQIndex;
@@ -622,8 +654,47 @@
             updates['winner'] = null;
             await update(ref(db, 'rooms/' + roomCode), updates);
         };
+
+        // NEW: HARD RESET (Kicks everyone but host)
+        window.resetGameHard = async () => {
+            if(!isHost) return;
+            if(!confirm("This will kick all other players out and start a fresh game. Continue?")) return;
+            
+            clearGlobalTimers();
+            
+            // Get current Host data to preserve it
+            const hostData = { score: 0, team: 'ORANGE', answer: -1 };
+            
+            // Overwrite players object to contain ONLY the host
+            await set(ref(db, 'rooms/' + roomCode + '/players'), {
+                [myName]: hostData
+            });
+
+            const newQuestions = getNewQuestions();
+            
+            await update(ref(db, 'rooms/' + roomCode), {
+               questions: newQuestions,
+               currentQIndex: -1,
+               state: 'LOBBY',
+               winner: null
+            });
+        };
  
         // --- CLIENT FUNCTIONS ---
+        // NEW: EXIT GAME FUNCTION
+        window.exitGame = async () => {
+            if(!confirm("Leave the game?")) return;
+            
+            // Remove from DB
+            if(roomCode && myName) {
+                await remove(ref(db, 'rooms/' + roomCode + '/players/' + myName));
+            }
+            
+            // Clear Local Session
+            sessionStorage.clear();
+            location.reload();
+        };
+
         window.joinGame = async () => {
             roomCode = document.getElementById('join-code').value.toUpperCase();
             myName = document.getElementById('join-name-player').value.toUpperCase();
@@ -656,6 +727,14 @@
                 // Track state locally for the persistent listener to know when to act
                 currentLocalState = data.state;
                 
+                // CHECK IF I WAS KICKED (Hard Reset logic)
+                if (data.players && !data.players[myName] && myName) {
+                    alert("The host started a new game with new players.");
+                    sessionStorage.clear();
+                    location.reload();
+                    return;
+                }
+
                if(data.players && data.players[myName]) { 
                    myTeam = data.players[myName].team; 
                    updateMyTeamUI(myTeam); 
@@ -682,7 +761,10 @@
                     }
                     
                     // Show Host Controls
-                    if(isHost) document.getElementById('host-controls').style.display = 'flex';
+                    if(isHost) {
+                        document.getElementById('host-controls').style.display = 'flex';
+                        document.getElementById('host-results-controls').style.display = 'none'; 
+                    }
 
                     if (data.currentQIndex !== lastRenderedQIndex) {
                         lastRenderedQIndex = data.currentQIndex;
@@ -692,11 +774,17 @@
                     }
                 }
                 else if(data.state === 'RESULTS') { 
-                    if(isHost) document.getElementById('host-controls').style.display = 'none';
+                    if(isHost) {
+                        document.getElementById('host-controls').style.display = 'none'; 
+                        document.getElementById('host-results-controls').style.display = 'flex'; 
+                    }
                     showResults(data); 
                 }
                 else if(data.state === 'GAME_OVER') { 
-                    if(isHost) document.getElementById('host-controls').style.display = 'none';
+                    if(isHost) {
+                        document.getElementById('host-controls').style.display = 'none';
+                        document.getElementById('host-results-controls').style.display = 'none';
+                    }
                     showGameOver(data); 
                 }
             });
