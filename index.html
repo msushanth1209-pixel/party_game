@@ -469,7 +469,6 @@
         }
  
         function nextQuestion(index) {
-           // 🔴 LOCK RESET: New round started
            isProcessingRound = false; 
            
            if(index >= 15) return endGame();
@@ -483,7 +482,7 @@
  
            startCheckingAnswers(index);
            
-           // Fallback timer: Force end round after 15s if answer listener fails
+           // Fallback timer
            hostTimer = setTimeout(() => {
                if(!isProcessingRound) calculateResults(index);
            }, 15000);
@@ -501,7 +500,7 @@
             const playersRef = ref(db, 'rooms/' + roomCode + '/players');
             
             activePlayerListener = onValue(playersRef, (snap) => {
-                if(isProcessingRound) return; // Ignore if we are already calculating
+                if(isProcessingRound) return; 
  
                 const players = snap.val() || {};
                 const playerKeys = Object.keys(players);
@@ -520,17 +519,16 @@
         }
  
         async function calculateResults(qIndex) {
-            if(isProcessingRound) return; // Double Check Safety Lock
-            isProcessingRound = true; // 🔴 LOCK: processing started
+            if(isProcessingRound) return; 
+            isProcessingRound = true; 
  
-            clearGlobalTimers(); // Kill the 15s timer immediately
-            cleanupListeners(); // Kill the listener immediately
+            clearGlobalTimers(); 
+            cleanupListeners(); 
  
             const roomRef = ref(db, 'rooms/' + roomCode);
             const snap = await get(roomRef);
             const data = snap.val();
            
-           // State integrity check
            if(data.state !== 'QUESTION' || data.currentQIndex !== qIndex) return;
  
             const players = data.players || {};
@@ -574,7 +572,6 @@
             
             await update(roomRef, updates);
             
-            // 🔴 START NEXT ROUND DELAY TIMER
             nextRoundTimer = setTimeout(() => nextQuestion(qIndex + 1), 7000); 
         }
  
@@ -655,7 +652,6 @@
                 }
  
                if(data.state === 'LOBBY') {
-                   // Clean up confetti if we go back to lobby
                    stopConfetti();
                    if(isHost && document.getElementById('s-host-lobby').style.display === 'none') {
                        switchScreen('s-host-lobby');
@@ -665,6 +661,19 @@
                    lastRenderedQIndex = -1; 
                }
                else if(data.state === 'QUESTION') { 
+                    // 🔴 HOST RECOVERY LOGIC ADDED HERE 🔴
+                    if (isHost && !activePlayerListener && !isProcessingRound) {
+                        const now = Date.now();
+                        const elapsed = now - (data.startTime || now);
+                        const remaining = Math.max(0, 15000 - elapsed);
+                        
+                        // Restart listeners if they were lost during refresh
+                        startCheckingAnswers(data.currentQIndex);
+                        hostTimer = setTimeout(() => {
+                            if (!isProcessingRound) calculateResults(data.currentQIndex);
+                        }, remaining);
+                    }
+
                     if (data.currentQIndex !== lastRenderedQIndex) {
                         lastRenderedQIndex = data.currentQIndex;
                         hasLockedAnswer = false; 
@@ -787,7 +796,6 @@
  
         // --- CONFETTI LOGIC ---
         function startConfetti() {
-            // Stop previous if exists
             stopConfetti();
             
             const canvas = document.getElementById('confetti-canvas');
